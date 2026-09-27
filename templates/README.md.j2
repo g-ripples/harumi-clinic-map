@@ -75,6 +75,13 @@
 
 `dist/maps.csv` は Google マイマップに読み込める（位置は「住所」列）。科やタグ別のレイヤー用に `dist/maps-<タグ>.csv` も出力する。
 
+## 毎日の「今日開いている医院」
+
+GitHub Actions（`.github/workflows/today.yml`）が毎朝 6:00（日本時間）に、その日が平日・土曜・日曜・祝日のどれかを判定し
+（祝日は `jpholiday`、土日祝が3日以上続く連休も判定）、その日に開いている医院を近い順に並べた A4 の一覧を作る。
+Actions の実行結果のページに一覧が表示され、印刷用の PDF / HTML は Artifacts からダウンロードできる。
+日付を指定した手動実行（Run workflow）もできる。ローカルでは `python scripts/today.py [--date YYYY-MM-DD]` → `dist/today-<日付>.html`。
+
 ## 更新方法
 
 1. `data/clinics.yaml` を編集する（確認したら `verified` をその日付に）。

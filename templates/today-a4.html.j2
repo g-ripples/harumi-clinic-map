@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ day.label }} 開いている医院</title>
+<!-- scripts/today.py が生成。外部フォント・CDN は使わない（オフラインで印刷可）。 -->
+<style>
+  @page { size: A4 portrait; margin: 10mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+                 "Meiryo", "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+    font-size: 9pt; line-height: 1.35; color: #000; background: #fff;
+    max-width: 190mm; margin: 0 auto; padding: 4mm 0;
+  }
+  header { border-bottom: 0.8mm solid #000; padding-bottom: 1.5mm; margin-bottom: 2mm;
+           display: flex; justify-content: space-between; align-items: flex-end; gap: 4mm; }
+  h1 { font-size: 16pt; }
+  .kind { font-size: 12pt; font-weight: 800; border: 0.5mm solid #000; padding: 0.5mm 2.5mm; white-space: nowrap; }
+  .alert { border: 0.5mm solid #000; padding: 1.5mm 2mm; margin-bottom: 2mm; font-weight: 700; }
+  .meta { font-size: 7.5pt; margin-bottom: 2mm; }
+  h2 { font-size: 10.5pt; margin: 3mm 0 1mm; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 0.25mm solid #000; padding: 1mm 1.5mm; vertical-align: top; text-align: left; }
+  th { font-size: 8pt; background: #e6e6e6; }
+  tr { break-inside: avoid; }
+  .name { font-weight: 700; font-size: 10pt; }
+  .sub { font-size: 7.5pt; }
+  .hours { white-space: nowrap; font-weight: 700; }
+  .tel { font-size: 14pt; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .dist { white-space: nowrap; font-size: 8pt; }
+  .num { text-align: right; width: 6mm; }
+  th { white-space: nowrap; }
+  .unknown { list-style: none; columns: 2; column-gap: 6mm; font-size: 7.5pt; }
+  .unknown li { break-inside: avoid; border-bottom: 0.2mm dotted #000; padding: 0.6mm 0; display: flex; justify-content: space-between; gap: 2mm; }
+  .unknown .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .unknown b { font-size: 9pt; white-space: nowrap; margin-left: auto; }
+  footer { margin-top: 3mm; border-top: 0.3mm solid #000; padding-top: 1mm; font-size: 7.5pt; }
+  .phones { display: flex; gap: 6mm; margin-top: 1mm; }
+  .phones b { font-size: 14pt; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ day.label }} 開いている医院</h1>
+  <span class="kind">{{ day.kind }}{% if day.renkyu %} ・ 連休中{% endif %}</span>
+</header>
+
+{% if day.renkyu %}
+<p class="alert">⚠ 連休中（{{ day.renkyu[0].month }}/{{ day.renkyu[0].day }}〜{{ day.renkyu[1].month }}/{{ day.renkyu[1].day }}）。「連休は休診」の医院は一覧から除外しています{% if renkyu_closed %}（{{ renkyu_closed | map(attribute="name") | join("、") }}）{% endif %}。</p>
+{% endif %}
+{% if day.nenmatsu %}
+<p class="alert">⚠ 年末年始は通常と違う診療時間の医院が多い。必ず電話で確認を。</p>
+{% endif %}
+<p class="meta">距離は{{ origin.name }}（{{ origin.address | replace("東京都中央区", "") }}）からの徒歩の目安。「要確認」は1年以上情報を確認していない医院。受診前に必ず電話で確認すること。</p>
+
+<h2>開いている医院（{{ open | length }}件・近い順）</h2>
+{% if open %}
+<table>
+  <thead><tr><th class="num">#</th><th>医院</th><th>本日の時間</th><th>電話</th><th>距離</th></tr></thead>
+  <tbody>
+  {% for c, hours in open %}
+  <tr>
+    <td class="num">{{ loop.index }}</td>
+    <td><div class="name">{{ c.name }}{% if c.stale %} <span class="sub">（要確認 {{ c.verified }}）</span>{% endif %}</div>
+        <div class="sub">{{ c.depts | join("・") }}{% if c.address %} ／ {{ c.address | replace("東京都", "") }}{% endif %}</div>
+        {% if c.holiday_note or c.note %}<div class="sub">{{ [c.holiday_note, c.note] | select | join(" ／ ") }}</div>{% endif %}</td>
+    <td class="hours">{{ hours | safe }}</td>
+    <td class="tel">{{ c.tel or "—" }}</td>
+    <td class="dist">{% if c.walk_m %}徒歩{{ c.walk_min }}分<br>{{ "{:,}".format(c.walk_m) }}m{{ "*" if c.walk_m_source == "estimated" }}{% else %}—{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="alert">登録されている医院で今日開いているところはありません。#8000 / #7119 に相談してください。</p>
+{% endif %}
+
+{% if unknown %}
+<h2>今日の診療が不明（{{ unknown | length }}件・電話で確認）</h2>
+<ul class="unknown">
+  {% for c in unknown %}
+  <li><span class="n">{{ c.name }}</span> <b>{{ c.tel or "—" }}</b>{% if c.walk_m %} <span class="sub">徒歩{{ c.walk_min }}分</span>{% endif %}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<footer>
+  <div class="phones"><span><b>#8000</b> 子ども医療電話相談</span><span><b>#7119</b> 救急相談センター</span><span><b>119</b> 救急車</span></div>
+  登録 {{ total }}件中。data/clinics.yaml から自動生成。
+</footer>
+</body>
+</html>

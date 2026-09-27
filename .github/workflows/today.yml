@@ -1,0 +1,53 @@
+name: 今日開いている医院
+
+on:
+  schedule:
+    - cron: "0 21 * * *"   # 毎日 06:00 JST（GitHub の混雑で数十分遅れることがある）
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 対象日 YYYY-MM-DD（空なら今日・日本時間）
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  today:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: 日本語フォント（PDF の文字化け防止）
+        run: sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends fonts-noto-cjk
+
+      - name: 今日の一覧を生成（平日 / 土 / 日 / 祝日・連休を判定）
+        id: gen
+        env:
+          TARGET_DATE: ${{ inputs.date }}
+        run: python scripts/today.py --date "$TARGET_DATE" --summary "$GITHUB_STEP_SUMMARY"
+
+      - name: A4 PDF に変換
+        env:
+          HTML: ${{ steps.gen.outputs.html }}
+        run: |
+          google-chrome --headless=new --no-sandbox --disable-gpu --no-pdf-header-footer \
+            --print-to-pdf="${HTML%.html}.pdf" "file://$PWD/$HTML"
+          ls -l dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: today-${{ steps.gen.outputs.date }}
+          path: |
+            dist/today-*.html
+            dist/today-*.pdf
+          retention-days: 14
