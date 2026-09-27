@@ -1,0 +1,17 @@
+## {{ day.label }} {{ day.kind }}{% if day.renkyu %}（連休中）{% endif %} に開いている医院
+
+{% if day.renkyu and renkyu_closed %}
+⚠️ 連休のため除外: {{ renkyu_closed | map(attribute="name") | join("、") }}
+
+{% endif %}
+{% if day.nenmatsu %}
+⚠️ 年末年始は必ず電話で確認。
+
+{% endif %}
+| 医院 | 本日の時間 | 電話 | 距離 |
+|---|---|---|---|
+{% for c, hours in open %}
+| {{ c.name }}{{ " ⚠️要確認" if c.stale }} | {{ hours }} | {{ c.tel or "—" }} | {{ c.distance }} |
+{% endfor %}
+
+今日の診療が不明: {{ unknown | length }}件。印刷用 HTML / PDF はこの実行の Artifacts からダウンロード。

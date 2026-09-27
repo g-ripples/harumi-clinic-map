@@ -1,0 +1,393 @@
+# 晴海周辺 急病時の駆けつけ先 — 単一データソース
+#
+# 編集したら `python scripts/build.py` を実行する（README.md と dist/ を再生成）。
+#
+# hours: OpenStreetMap の opening_hours 記法の最小サブセット
+#   例: "Mo-Fr 09:00-12:30,15:00-18:00; Sa 09:00-12:00; Su,PH off"
+#   曜日 Mo Tu We Th Fr Sa Su / 祝日 PH / 範囲 Mo-Fr / 休診 off
+#   末尾に "..." で注記を付けられる（例: Su 09:00-12:30 "連休中は休診"）
+#   後のルールが前のルールを上書きする。
+#   ※ 記載のない曜日は「不明」として表示する（OSM 本来の「休み」扱いではない）。
+#      休みと分かっている曜日は必ず off と書くこと。
+#
+# holiday_note: 「連休は休診」のような落とし穴を書く専用欄。
+# verified:     公式サイト等で最後に確認した日（エントリごと）。365日超で「要確認」。
+# lat / lon:    空なら build 時に住所から Nominatim で補完して書き戻す（手入力も可）。
+# walk_m / walk_m_source: build が自動で書き戻す。手で書かない。
+#   再計算は `python scripts/build.py --refresh-distance`
+#
+# 個人情報（自宅住所・氏名・保険証番号など）はこのリポジトリに一切書かないこと。
+
+origin:
+  name: マルエツ晴海三丁目店
+  address: 東京都中央区晴海3-13-2
+  lat: 35.6543925
+  lon: 139.7774300
+  note: 距離計算の基準点（24時間営業・目印になるため採用）
+
+clinics:
+  # ───────────── 小児科 ─────────────
+  - id: ariake-kodomo-kachidoki
+    name: 有明こどもクリニック 勝どき院
+    科: [小児科, 内科, アレルギー科]
+    tel: "03-3533-7281"
+    address: 東京都中央区勝どき3-5-5
+    nearest: 勝どき駅 徒歩1分
+    hours: "Mo-Fr 09:00-12:45,14:00-20:00; Sa,Su 09:00-13:00,14:00-17:00; PH 09:00-17:00"
+    holiday_note: 年中無休
+    note: 大人も受診可
+    url:
+    tags: [小児科, 祝日可, 夜間]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: harumi-triton-yumemirai
+    name: 晴海トリトン夢未来クリニック
+    科: [小児科, 耳鼻咽喉科, 皮膚科, アレルギー科]
+    tel: "03-3536-1361"
+    address: 東京都中央区晴海1-8-16 晴海トリトンスクエア3F
+    # 平日の時間は旧xlsx（2024-05-12）から移行。土日祝は 2026-09-24 に公式サイトで確認。
+    hours: "Mo-Fr 09:00-12:30,15:30-18:30; Sa,Su,PH 08:30-12:30,13:30-15:30"
+    holiday_note: 土日祝も診療
+    note: 受付は各枠の15分前締切。病児保育室あり。平日の時間は旧表から移行
+    url:
+    tags: [小児科, 祝日可]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: kosaka-kodomo-genki
+    name: 小坂こども元気クリニック
+    科: [小児科]
+    tel: "03-5547-1191"
+    address: 東京都中央区月島3-30-3
+    # 平日・土の時間は旧xlsx から移行。日祝は 2026-09-24 に公式サイトで確認。
+    hours: "Mo-Fr 09:00-12:00,16:00-18:30; Sa 09:00-13:00; Su,PH 09:00-13:00"
+    holiday_note: 休診は1/1〜1/3のみ
+    note: 病児保育室あり。平日・土の時間は旧表から移行
+    url:
+    tags: [小児科, 祝日可]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: the-tokyo-towers
+    name: ザ東京タワーズクリニック
+    科: [小児科]
+    tel: "03-3534-9002"
+    address: 東京都中央区勝どき6-3-2
+    # 日曜は「連休以外の日曜のみ午前診療」。時刻は土曜午前と同じと仮定。
+    hours: 'Mo-We,Fr 09:00-12:30,14:00-18:00; Th,Sa 09:00-12:30; Su 09:00-12:30 "連休中は休診"; PH off'
+    holiday_note: 連休は休診（日曜も休み）。日曜の午前診療は連休でない週のみ
+    note: 日曜の時刻は要確認
+    url:
+    tags: [小児科]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: chuo-kyujitsu-oukyu
+    name: 中央区休日応急診療所
+    科: [小児科, 内科]
+    tel: "03-3533-3136"
+    address: 東京都中央区佃2-17-8
+    nearest: 月島駅 徒歩1分
+    hours: "Mo-Fr off; Sa 17:00-22:00; Su,PH 09:00-22:00"
+    holiday_note: "平日は休診（平日夜は #8000 / #7119 へ）"
+    note: 処方は原則1日分。外科処置は不可
+    url:
+    tags: [小児科, 内科, 祝日可, 夜間]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: kachidoki-shoni
+    name: 勝どき小児クリニック
+    科: [小児科]
+    tel: "03-5166-0150"
+    address: 東京都中央区勝どき1-3-1
+    hours: "Mo-We,Fr 09:00-12:00,15:00-17:30; Th,Sa 09:00-12:00"
+    url:
+    tags: [小児科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: takebuchi-family
+    name: たけぶちファミリークリニック
+    科: [小児科]
+    tel: "03-3534-2757"
+    address: 東京都中央区晴海2-5-24
+    hours: "Mo 09:00-12:30,14:30-16:30; Tu 09:00-12:30,14:30-17:00; We off; Th 09:00-12:30,15:30-18:00; Fr 09:00-12:00,15:30-18:00; Sa 09:00-12:30"
+    url:
+    tags: [小児科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: parktower-kachidoki-shonika
+    name: パークタワー勝どき小児科
+    科: [小児科]
+    tel: "03-6228-2517"
+    address: 東京都中央区勝どき4-6-2 ミッド304
+    hours: "Mo-Fr 09:00-12:30,15:00-18:30; Sa 10:00-14:30"
+    note: 受付は終了15分前まで
+    url:
+    tags: [小児科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: harumi-shonika
+    name: 晴海小児科医院
+    科: [小児科]
+    tel: "03-3532-7733"
+    address: 東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F
+    hours: "Mo-Fr 09:00-12:00,16:00-18:30; Sa 09:00-12:00,16:00-17:00; Su 09:00-12:00"
+    url:
+    tags: [小児科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  # ───────────── 内科（大人） ─────────────
+  - id: harumi-3chome
+    name: 晴海3丁目クリニック
+    科: [内科]
+    tel:
+    address: 東京都中央区晴海3-10-1
+    # 平日の時間は旧xlsx から移行。土日祝は 2026-09-24 に確認。電話番号は未登録。
+    hours: "Mo-Fr 09:00-14:00,16:00-20:00; Sa,Su,PH 09:00-12:00,15:00-17:00"
+    note: 大人向け。平日の時間は旧表から移行
+    url:
+    tags: [内科, 祝日可]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: kachidoki-viewtower
+    name: 勝どきビュータワークリニック
+    科: [内科]
+    tel: "03-5859-0781"
+    address: 東京都中央区勝どき1-8-1
+    hours: "Mo-Fr 09:00-12:30,14:00-17:30; Sa 09:00-12:30"
+    note: 旧表では小児科欄に記載（「小児科ないかも」のメモあり）
+    url:
+    tags: [内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: hamanaka
+    name: 浜中医院
+    科: [内科]
+    tel: "03-3531-0547"
+    address: 東京都中央区勝どき2-1-13
+    hours: "Mo-Th 09:30-13:00,15:00-17:30; Fr off; Sa 09:30-13:00"
+    url:
+    tags: [内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: st-catherine
+    name: 聖カタリナ病院
+    科: [内科, 呼吸器内科]
+    tel:
+    address:
+    hours: "Mo-Fr 09:00-17:00; Sa off"
+    note: 呼吸器は火・木 9:00-17:00、水 13:00-17:00。住所・電話は旧表に記載なし
+    url:
+    tags: [内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: jikei-harumi-triton
+    name: 慈恵医大晴海トリトンクリニック
+    科: [内科]
+    tel:
+    address:
+    hours: "Mo-Fr 09:00-16:00; Sa 09:00-12:00"
+    note: 住所・電話は旧表に記載なし
+    url:
+    tags: [内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: harumi-clinic
+    name: 晴海クリニック
+    科: [内科]
+    tel:
+    address:
+    hours: "Mo,Tu,Th,Fr 09:00-12:30,15:00-18:30; We off; Sa 09:00-12:30"
+    note: 住所・電話は旧表に記載なし
+    url:
+    tags: [内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  # ───────────── 外科・整形外科の救急 ─────────────
+  - id: kobikicho
+    name: 木挽町医院
+    科: [外科, 整形外科]
+    tel: "03-3541-3800"
+    address: 東京都中央区銀座4-11-4
+    hours: 'Mo-Su,PH 00:00-24:00 "急患"'
+    holiday_note: 急患は365日24時間
+    note: 急患は時間外も対応。一般外来は平日 9-12・13-17、土 9-12（旧表）
+    url:
+    tags: [外科, 整形外科, 祝日可, 夜間, 24時間]
+    verified: 2026-09-24
+    source: 公式サイト
+
+  - id: st-lukes
+    name: 聖路加国際病院
+    科: [外科, 整形外科]
+    tel: "03-3541-5151"
+    tel_alt:
+      - {label: 予約, tel: "03-5550-7120"}
+    address: 東京都中央区明石町9-1
+    hours: "Mo-We 09:00-12:00,13:00-16:00; Th 13:00-16:00; Fr 09:00-12:00; Sa off"
+    note: 紹介状なしの受診は選定療養費あり（旧表時点で5,500円）
+    url:
+    tags: [外科, 整形外科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: showa-koto-toyosu
+    name: 昭和大学江東豊洲病院
+    科: [外科, 整形外科]
+    tel: "03-6204-6000"
+    tel_alt:
+      - {label: 予約, tel: "03-6204-6489"}
+    address: 東京都江東区豊洲5-1-38
+    hours: "Mo-Sa 09:00-17:30"
+    holiday_note: 11/15（創立記念日）と年末年始は休診
+    note: 予約センターは日〜土 8:30-14:00
+    url:
+    tags: [外科, 整形外科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: suzuki-hospital
+    name: 鈴木病院
+    科: [外科, 整形外科]
+    tel: "03-5617-5617"
+    address: 東京都江東区塩浜2-7-3
+    hours: "Mo,Tu 10:00-12:30,14:00-17:00; We 09:00-11:00; Th,Fr 10:00-12:30; Sa 13:00-13:30"
+    note: 時間は旧表のまま（不規則なので要確認）
+    url:
+    tags: [外科, 整形外科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: ganken-ariake
+    name: がん研有明病院
+    科: [外科]
+    tel: "03-3520-0111"
+    tel_alt:
+      - {label: 初診, tel: "03-3570-0541"}
+      - {label: 再診, tel: "03-3570-0507"}
+    address: 東京都江東区有明3-8-31
+    hours: "Mo-Fr 09:00-12:00; Sa off"
+    note: 外来は予約制。代表番号は旧表で「急」と記載
+    url:
+    tags: [外科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  # ───────────── 皮膚科 ─────────────
+  - id: kachidoki-ekimae-naika-hifuka
+    name: 勝どき駅前内科皮ふ科クリニック
+    科: [皮膚科, 内科]
+    tel: "03-5534-8350"
+    address: 東京都中央区勝どき3-5-5
+    hours: "Mo-We,Fr 10:00-13:00,15:00-19:00; Th,Sa 10:00-13:00; Su off"
+    note: 受付は終了15分前まで
+    url:
+    tags: [皮膚科, 内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: kachidoki-hifuka
+    name: かちどき皮膚科クリニック～石原記念診療所～
+    科: [皮膚科]
+    tel: "03-5560-3000"
+    address: 東京都中央区勝どき4-2-14
+    hours: "Mo-We,Fr 09:00-12:30,15:00-18:00; Th off; Sa 09:00-12:30; Su,PH off"
+    url:
+    tags: [皮膚科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  # ───────────── 耳鼻咽喉科 ─────────────
+  - id: kachidoki-minami
+    name: 勝どきみなみクリニック
+    科: [耳鼻咽喉科]
+    tel: "03-3533-0715"
+    tel_alt:
+      - {label: 自動受付, tel: "03-5534-9300"}
+    address: 東京都中央区勝どき4-8-5
+    hours: "Mo-We,Fr 09:30-13:00,15:00-19:00; Th off; Sa 09:30-13:00; Su,PH off"
+    url:
+    tags: [耳鼻咽喉科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: kachidoki-ekimae-jibika
+    name: 勝どき駅前耳鼻咽喉科・頭頸部甲状腺クリニック
+    科: [耳鼻咽喉科]
+    tel: "03-5859-0563"
+    address: 東京都中央区勝どき3-5-5
+    hours: "Mo-Fr 09:30-12:00,14:00-16:30; Sa off"
+    url:
+    tags: [耳鼻咽喉科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: harumi-jibika
+    name: 晴海耳鼻咽喉科
+    科: [耳鼻咽喉科]
+    tel: "03-5548-3387"
+    address: 東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F
+    hours: "Mo-Fr 09:30-12:30,14:30-17:30; Sa,Su 09:00-12:00,13:30-15:30; PH off"
+    holiday_note: 祝日は休診（土日は診療）
+    url:
+    tags: [耳鼻咽喉科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: kachidoki-jibika-naika
+    name: 勝どき耳鼻咽喉科・内科クリニック
+    科: [耳鼻咽喉科, 内科]
+    tel: "03-3533-4133"
+    address: 東京都中央区勝どき4-2-13
+    hours: "Mo,Tu,Th,Fr 09:30-12:30,15:00-18:00; We off; Sa 09:30-12:30; Su,PH off"
+    url:
+    tags: [耳鼻咽喉科, 内科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: otsuki-jibika
+    name: 大築耳鼻咽喉科医院
+    科: [耳鼻咽喉科]
+    tel: "03-3531-3387"
+    address: 東京都中央区月島4-3-1
+    hours: "Mo off; Tu,We 10:00-13:00,14:30-18:00; Th off; Fr 14:30-18:00; Sa off"
+    note: 金曜午後は臨時休診が多い
+    url:
+    tags: [耳鼻咽喉科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: tsukishima-jibika
+    name: 月島耳鼻咽喉科
+    科: [耳鼻咽喉科]
+    tel: "03-3533-1333"
+    address: 東京都中央区月島1-8-1 アイマーク
+    hours: "Mo-We,Fr 09:00-12:00,14:30-17:30; Th off; Sa 09:00-12:00; Su,PH off"
+    url:
+    tags: [耳鼻咽喉科]
+    verified: 2024-05-12
+    source: 旧xlsx
+
+  - id: toyosu-mimihana
+    name: 豊洲みみはなのどクリニック
+    科: [耳鼻咽喉科]
+    tel: "03-5859-5133"
+    address: 東京都江東区豊洲2-1-9
+    hours: "Mo-Fr 09:30-13:00,15:00-19:00; Sa 09:30-13:30"
+    note: 受付は終了15分前まで
+    url:
+    tags: [耳鼻咽喉科]
+    verified: 2024-05-12
+    source: 旧xlsx
