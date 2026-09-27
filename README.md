@@ -5,6 +5,8 @@
 
 生成日 2026-09-27 ・ 距離の基準点は **マルエツ晴海三丁目店**（晴海3-13-2）。自宅からの距離ではありません。
 
+📱 **今日開いている医院（毎朝更新）: https://g-ripples.github.io/harumi-clinic-map/**
+
 **必ず電話で確認してから向かうこと。** 急を要する場合は迷わず **119**。
 
 ## 休日・祝日に開いている
@@ -419,9 +421,11 @@
 
 ## 毎日の「今日開いている医院」
 
+📱 **https://g-ripples.github.io/harumi-clinic-map/** （毎朝更新。印刷用 PDF は [today.pdf](https://g-ripples.github.io/harumi-clinic-map/today.pdf)）
+
 GitHub Actions（`.github/workflows/today.yml`）が毎朝 6:00（日本時間）に、その日が平日・土曜・日曜・祝日のどれかを判定し
 （祝日は `jpholiday`、土日祝が3日以上続く連休も判定）、その日に開いている医院を近い順に並べた A4 の一覧を作る。
-Actions の実行結果のページに一覧が表示され、印刷用の PDF / HTML は Artifacts からダウンロードできる。
+結果は上記の GitHub Pages に公開され、各実行の Artifacts にも PDF / HTML を14日間保存する。
 日付を指定した手動実行（Run workflow）もできる。ローカルでは `python scripts/today.py [--date YYYY-MM-DD]` → `dist/today-<日付>.html`。
 
 ## 更新方法

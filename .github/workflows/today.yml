@@ -12,11 +12,20 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   today:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -51,3 +60,22 @@ jobs:
             dist/today-*.html
             dist/today-*.pdf
           retention-days: 14
+
+      # ── GitHub Pages に公開（スマホで固定 URL から見られるように）──
+      - name: Pages 用に site/ を用意
+        env:
+          HTML: ${{ steps.gen.outputs.html }}
+        run: |
+          mkdir -p site
+          cp "$HTML" site/index.html
+          cp "${HTML%.html}.pdf" site/today.pdf
+          ls -l site/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

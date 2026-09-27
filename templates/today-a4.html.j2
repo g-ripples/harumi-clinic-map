@@ -7,6 +7,7 @@
 <!-- scripts/today.py が生成。外部フォント・CDN は使わない（オフラインで印刷可）。 -->
 <style>
   @page { size: A4 portrait; margin: 10mm; }
+  a { color: inherit; text-decoration: none; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
@@ -39,6 +40,18 @@
   footer { margin-top: 3mm; border-top: 0.3mm solid #000; padding-top: 1mm; font-size: 7.5pt; }
   .phones { display: flex; gap: 6mm; margin-top: 1mm; }
   .phones b { font-size: 14pt; }
+  /* スマホ画面（GitHub Pages で見る時）は表を縦積みにする。印刷レイアウトには影響しない */
+  @media screen and (max-width: 640px) {
+    body { padding: 3mm; font-size: 10pt; }
+    header { flex-wrap: wrap; }
+    h1 { font-size: 14pt; }
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr { border: 0.3mm solid #000; margin-bottom: 2mm; }
+    td { border: none; padding: 0.5mm 2mm; }
+    .num { display: none; }
+    .unknown { columns: 1; }
+  }
 </style>
 </head>
 <body>
@@ -67,7 +80,7 @@
         <div class="sub">{{ c.depts | join("・") }}{% if c.address %} ／ {{ c.address | replace("東京都", "") }}{% endif %}</div>
         {% if c.holiday_note or c.note %}<div class="sub">{{ [c.holiday_note, c.note] | select | join(" ／ ") }}</div>{% endif %}</td>
     <td class="hours">{{ hours | safe }}</td>
-    <td class="tel">{{ c.tel or "—" }}</td>
+    <td class="tel">{% if c.tel %}<a href="{{ c.tel_href }}">{{ c.tel }}</a>{% else %}—{% endif %}</td>
     <td class="dist">{% if c.walk_m %}徒歩{{ c.walk_min }}分<br>{{ "{:,}".format(c.walk_m) }}m{{ "*" if c.walk_m_source == "estimated" }}{% else %}—{% endif %}</td>
   </tr>
   {% endfor %}
@@ -81,7 +94,7 @@
 <h2>今日の診療が不明（{{ unknown | length }}件・電話で確認）</h2>
 <ul class="unknown">
   {% for c in unknown %}
-  <li><span class="n">{{ c.name }}</span> <b>{{ c.tel or "—" }}</b>{% if c.walk_m %} <span class="sub">徒歩{{ c.walk_min }}分</span>{% endif %}</li>
+  <li><span class="n">{{ c.name }}</span> <b>{% if c.tel %}<a href="{{ c.tel_href }}">{{ c.tel }}</a>{% else %}—{% endif %}</b>{% if c.walk_m %} <span class="sub">徒歩{{ c.walk_min }}分</span>{% endif %}</li>
   {% endfor %}
 </ul>
 {% endif %}
