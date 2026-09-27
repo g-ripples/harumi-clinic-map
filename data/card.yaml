@@ -1,0 +1,27 @@
+# 印刷カード（dist/card-a4.html）表面の場面別ルーティング。
+# 医院の情報はここに書かず、clinics.yaml の id で参照する。
+# show_days: カードに載せる曜日（同じ時間の曜日はまとめて表示される）
+
+title: 急病時の行き先（晴海）
+repo_url: https://github.com/g-ripples/harumi-clinic-map#readme
+
+routes:
+  - title: 子どもの発熱・嘔吐（休日・祝日）
+    clinics:
+      - {id: ariake-kodomo-kachidoki, show_days: [Sa, Su, PH]}
+      - {id: kosaka-kodomo-genki, show_days: [Su, PH]}
+
+  - title: 夜間（〜22時）
+    clinics:
+      - {id: chuo-kyujitsu-oukyu, show_days: [Mo, Tu, We, Th, Fr, Sa, Su, PH]}
+    note: "平日の夜は休診 → 下の #8000 / #7119 へ"
+
+  - title: 骨折・切傷
+    clinics:
+      - {id: kobikicho, show_days: [Mo, Tu, We, Th, Fr, Sa, Su, PH]}
+
+  - title: 迷ったら
+    phones:
+      - {label: 子どもの救急相談, tel: "#8000"}
+      - {label: 救急相談センター（東京）, tel: "#7119"}
+      - {label: 救急車, tel: "119"}

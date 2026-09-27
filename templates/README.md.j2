@@ -1,0 +1,109 @@
+<!-- このファイルは scripts/build.py が data/clinics.yaml から生成します。直接編集しないでください。 -->
+# 晴海 急病時の駆けつけ先
+
+{{ badges | join(" ") }}
+
+生成日 {{ today }} ・ 距離の基準点は **{{ origin.name }}**（{{ origin.address | replace("東京都中央区", "") }}）。自宅からの距離ではありません。
+
+**必ず電話で確認してから向かうこと。** 急を要する場合は迷わず **119**。
+
+## 休日・祝日に開いている
+
+| 医院 | 距離 | 日 | 祝 | 確認日 |
+|---|---|---|---|---|
+{% for c in summary %}
+| [{{ c.name }}](#{{ c.id }}) | {{ c.distance | replace(" / ", "<br>") }} | {{ fmt_day(c.hours.get("Su"), "<br>") }} | {{ holiday_text(c, "<br>") }} | {{ c.verified }}{{ " ⚠️" if c.stale }} |
+{% endfor %}
+
+⚠️ 祝日列: 連休中は休診になる医院。 ⚠️ 確認日: {{ stale_days }}日以上確認していない（要確認）。
+{% if estimated %}距離の `*` は直線距離からの推定値。{% endif %}
+
+## 電話相談
+
+- **#8000** — 子ども医療電話相談（夜間・休日）
+- **#7119** — 東京消防庁 救急相談センター（24時間）
+- **119** — 救急車
+
+## 全件リスト
+
+科ごとに、基準点から近い順。
+{% if no_distance %}
+距離が「—」の医院は未計算（住所が未登録、または座標を取得できていない）。
+{% endif %}
+
+{% for key, label, members in groups %}
+### {{ label }}
+
+{% for c in members %}
+#### <a id="{{ c.id }}"></a>{{ c.name }}{{ " ⚠️要確認" if c.stale }}
+
+- **距離** {{ c.distance }}
+{% if c.tel %}
+- 📞 [{{ c.tel }}]({{ c.tel_href }}){% for a in c.tel_alt or [] %} ・ {{ a.label }} [{{ a.tel }}]({{ tel_href(a.tel) }}){% endfor %}
+
+{% else %}
+- 📞 電話番号未登録
+{% endif %}
+{% if c.address %}
+- 🗺️ [{{ c.address }}]({{ c.map_url }}){% if c.nearest %}（{{ c.nearest }}）{% endif %}
+
+{% else %}
+- 🗺️ 住所未登録
+{% endif %}
+{% for label, text in group_days(c.hours, ["Mo", "Tu", "We", "Th", "Fr"]) %}
+- {{ label }}: {{ text }}
+{% endfor %}
+- 土: {{ fmt_day(c.hours.get("Sa")) }}
+- 日: {{ fmt_day(c.hours.get("Su")) }}
+- 祝: {{ holiday_text(c) }}
+{% if c.holiday_note %}
+- 休日の注意: {{ c.holiday_note }}
+{% endif %}
+{% if c.note %}
+- 備考: {{ c.note }}
+{% endif %}
+- 科: {{ c.depts | join("・") }} ・ 確認 {{ c.verified }}（{{ c.source }}）{% if c.url %} ・ [公式サイト]({{ c.url }}){% endif %}
+
+
+{% endfor %}
+{% endfor %}
+## 印刷用カード
+
+`python scripts/build.py` で `dist/card-a4.html` ができる。Chrome で開いて印刷（A4 縦・倍率100%・余白「なし」または「デフォルト」・両面は長辺とじ）。
+1枚目が表、2枚目が裏。A6 サイズ4面を切り分けて、救急バッグ・財布・玄関・学校用に。
+裏面は手書き欄（氏名・アレルギー・保険証番号など）なので、個人情報はこのリポジトリに入らない。
+
+`dist/maps.csv` は Google マイマップに読み込める（位置は「住所」列）。科やタグ別のレイヤー用に `dist/maps-<タグ>.csv` も出力する。
+
+## 更新方法
+
+1. `data/clinics.yaml` を編集する（確認したら `verified` をその日付に）。
+2. `python scripts/build.py` を実行する（README.md と dist/ を再生成）。
+3. `data/clinics.yaml` と `README.md` をコミットする。
+
+初回のみ `pip install -r requirements.txt`。
+{{ stale_days }}日以上確認していない医院は `python scripts/check_stale.py` で一覧できる（該当があると終了コード 1）。
+徒歩距離はネットワークのある環境で自動計算され、`clinics.yaml` に書き戻される。再計算は `--refresh-distance`。
+
+## About
+
+Which clinics near Harumi are actually open — including Sundays,
+public holidays, and consecutive-holiday periods, which is exactly
+when the usual list stops being useful. Holiday coverage is recorded
+as a first-class field (`PH` in OpenStreetMap opening_hours syntax),
+and clinics that close during consecutive holidays are flagged.
+
+Every entry carries its own `verified` date. Clinics change their
+hours without announcing it, so treat anything older than a year as
+unconfirmed. **Always call ahead.** Nothing here is medical advice;
+the authoritative source is always the clinic's own website.
+
+Distances are walking distances from a fixed public reference point
+({{ origin.name }}), not from any residence. Routing by
+[OSRM](https://project-osrm.org/) and geocoding by
+[Nominatim](https://nominatim.org/), © OpenStreetMap contributors.
+
+## License
+
+Clinic data compiled from publicly available sources. Code under MIT;
+the compiled data under CC BY 4.0.

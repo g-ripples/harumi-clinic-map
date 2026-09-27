@@ -1,0 +1,14 @@
+# 生成物（build.py で再生成できる）
+dist/
+
+# 個人情報を含みうるファイルは絶対に公開しない
+*.xlsx
+*.xls
+*.xlsm
+personal*.yaml
+*.local.yaml
+
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

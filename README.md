@@ -1,48 +1,449 @@
-# Harumi Clinic Map
+<!-- このファイルは scripts/build.py が data/clinics.yaml から生成します。直接編集しないでください。 -->
+# 晴海 急病時の駆けつけ先
+
+![要確認 22件](https://img.shields.io/badge/%E8%A6%81%E7%A2%BA%E8%AA%8D-22%E4%BB%B6-orange) ![祝日可 6件](https://img.shields.io/badge/%E7%A5%9D%E6%97%A5%E5%8F%AF-6%E4%BB%B6-blue)
+
+生成日 2026-09-27 ・ 距離の基準点は **マルエツ晴海三丁目店**（晴海3-13-2）。自宅からの距離ではありません。
+
+**必ず電話で確認してから向かうこと。** 急を要する場合は迷わず **119**。
+
+## 休日・祝日に開いている
+
+| 医院 | 距離 | 日 | 祝 | 確認日 |
+|---|---|---|---|---|
+| [有明こどもクリニック 勝どき院](#ariake-kodomo-kachidoki) | — | 9:00-13:00<br>14:00-17:00 | 9:00-17:00 | 2026-09-24 |
+| [晴海トリトン夢未来クリニック](#harumi-triton-yumemirai) | — | 8:30-12:30<br>13:30-15:30 | 8:30-12:30<br>13:30-15:30 | 2026-09-24 |
+| [小坂こども元気クリニック](#kosaka-kodomo-genki) | — | 9:00-13:00 | 9:00-13:00 | 2026-09-24 |
+| [ザ東京タワーズクリニック](#the-tokyo-towers) | — | 9:00-12:30（連休中は休診） | 休診 ⚠️ | 2026-09-24 |
+| [中央区休日応急診療所](#chuo-kyujitsu-oukyu) | — | 9:00-22:00 | 9:00-22:00 | 2026-09-24 |
+| [晴海小児科医院](#harumi-shonika) | — | 9:00-12:00 | 不明 | 2024-05-12 ⚠️ |
+| [晴海3丁目クリニック](#harumi-3chome) | — | 9:00-12:00<br>15:00-17:00 | 9:00-12:00<br>15:00-17:00 | 2026-09-24 |
+| [木挽町医院](#kobikicho) | — | 24時間（急患） | 24時間（急患） | 2026-09-24 |
+| [晴海耳鼻咽喉科](#harumi-jibika) | — | 9:00-12:00<br>13:30-15:30 | 休診 | 2024-05-12 ⚠️ |
+
+⚠️ 祝日列: 連休中は休診になる医院。 ⚠️ 確認日: 365日以上確認していない（要確認）。
+
+## 電話相談
+
+- **#8000** — 子ども医療電話相談（夜間・休日）
+- **#7119** — 東京消防庁 救急相談センター（24時間）
+- **119** — 救急車
+
+## 全件リスト
+
+科ごとに、基準点から近い順。
+距離が「—」の医院は未計算（住所が未登録、または座標を取得できていない）。
+
+### 小児科
+
+#### <a id="ariake-kodomo-kachidoki"></a>有明こどもクリニック 勝どき院
+
+- **距離** —
+- 📞 [03-3533-7281](tel:0335337281)
+- 🗺️ [東京都中央区勝どき3-5-5](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D3-5-5)（勝どき駅 徒歩1分）
+- 平日: 9:00-12:45, 14:00-20:00
+- 土: 9:00-13:00, 14:00-17:00
+- 日: 9:00-13:00, 14:00-17:00
+- 祝: 9:00-17:00
+- 休日の注意: 年中無休
+- 備考: 大人も受診可
+- 科: 小児科・内科・アレルギー科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="harumi-triton-yumemirai"></a>晴海トリトン夢未来クリニック
+
+- **距離** —
+- 📞 [03-3536-1361](tel:0335361361)
+- 🗺️ [東京都中央区晴海1-8-16 晴海トリトンスクエア3F](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%99%B4%E6%B5%B71-8-16%20%E6%99%B4%E6%B5%B7%E3%83%88%E3%83%AA%E3%83%88%E3%83%B3%E3%82%B9%E3%82%AF%E3%82%A8%E3%82%A23F)
+- 平日: 9:00-12:30, 15:30-18:30
+- 土: 8:30-12:30, 13:30-15:30
+- 日: 8:30-12:30, 13:30-15:30
+- 祝: 8:30-12:30, 13:30-15:30
+- 休日の注意: 土日祝も診療
+- 備考: 受付は各枠の15分前締切。病児保育室あり。平日の時間は旧表から移行
+- 科: 小児科・耳鼻咽喉科・皮膚科・アレルギー科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="kosaka-kodomo-genki"></a>小坂こども元気クリニック
+
+- **距離** —
+- 📞 [03-5547-1191](tel:0355471191)
+- 🗺️ [東京都中央区月島3-30-3](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%9C%88%E5%B3%B63-30-3)
+- 平日: 9:00-12:00, 16:00-18:30
+- 土: 9:00-13:00
+- 日: 9:00-13:00
+- 祝: 9:00-13:00
+- 休日の注意: 休診は1/1〜1/3のみ
+- 備考: 病児保育室あり。平日・土の時間は旧表から移行
+- 科: 小児科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="the-tokyo-towers"></a>ザ東京タワーズクリニック
+
+- **距離** —
+- 📞 [03-3534-9002](tel:0335349002)
+- 🗺️ [東京都中央区勝どき6-3-2](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D6-3-2)
+- 月・火・水・金: 9:00-12:30, 14:00-18:00
+- 木: 9:00-12:30
+- 土: 9:00-12:30
+- 日: 9:00-12:30（連休中は休診）
+- 祝: 休診 ⚠️
+- 休日の注意: 連休は休診（日曜も休み）。日曜の午前診療は連休でない週のみ
+- 備考: 日曜の時刻は要確認
+- 科: 小児科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="chuo-kyujitsu-oukyu"></a>中央区休日応急診療所
+
+- **距離** —
+- 📞 [03-3533-3136](tel:0335333136)
+- 🗺️ [東京都中央区佃2-17-8](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E4%BD%832-17-8)（月島駅 徒歩1分）
+- 平日: 休診
+- 土: 17:00-22:00
+- 日: 9:00-22:00
+- 祝: 9:00-22:00
+- 休日の注意: 平日は休診（平日夜は #8000 / #7119 へ）
+- 備考: 処方は原則1日分。外科処置は不可
+- 科: 小児科・内科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="kachidoki-shoni"></a>勝どき小児クリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-5166-0150](tel:0351660150)
+- 🗺️ [東京都中央区勝どき1-3-1](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D1-3-1)
+- 月・火・水・金: 9:00-12:00, 15:00-17:30
+- 木: 9:00-12:00
+- 土: 9:00-12:00
+- 日: 不明
+- 祝: 不明
+- 科: 小児科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="takebuchi-family"></a>たけぶちファミリークリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-3534-2757](tel:0335342757)
+- 🗺️ [東京都中央区晴海2-5-24](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%99%B4%E6%B5%B72-5-24)
+- 月: 9:00-12:30, 14:30-16:30
+- 火: 9:00-12:30, 14:30-17:00
+- 水: 休診
+- 木: 9:00-12:30, 15:30-18:00
+- 金: 9:00-12:00, 15:30-18:00
+- 土: 9:00-12:30
+- 日: 不明
+- 祝: 不明
+- 科: 小児科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="parktower-kachidoki-shonika"></a>パークタワー勝どき小児科 ⚠️要確認
+
+- **距離** —
+- 📞 [03-6228-2517](tel:0362282517)
+- 🗺️ [東京都中央区勝どき4-6-2 ミッド304](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D4-6-2%20%E3%83%9F%E3%83%83%E3%83%89304)
+- 平日: 9:00-12:30, 15:00-18:30
+- 土: 10:00-14:30
+- 日: 不明
+- 祝: 不明
+- 備考: 受付は終了15分前まで
+- 科: 小児科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="harumi-shonika"></a>晴海小児科医院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-3532-7733](tel:0335327733)
+- 🗺️ [東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%99%B4%E6%B5%B75-2-31%20%E3%82%89%E3%82%89%E3%83%86%E3%83%A9%E3%82%B9HARUMI%20FLAG%203F)
+- 平日: 9:00-12:00, 16:00-18:30
+- 土: 9:00-12:00, 16:00-17:00
+- 日: 9:00-12:00
+- 祝: 不明
+- 科: 小児科 ・ 確認 2024-05-12（旧xlsx）
+
+### 内科（大人）
+
+#### <a id="harumi-3chome"></a>晴海3丁目クリニック
+
+- **距離** —
+- 📞 電話番号未登録
+- 🗺️ [東京都中央区晴海3-10-1](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%99%B4%E6%B5%B73-10-1)
+- 平日: 9:00-14:00, 16:00-20:00
+- 土: 9:00-12:00, 15:00-17:00
+- 日: 9:00-12:00, 15:00-17:00
+- 祝: 9:00-12:00, 15:00-17:00
+- 備考: 大人向け。平日の時間は旧表から移行
+- 科: 内科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="kachidoki-viewtower"></a>勝どきビュータワークリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-5859-0781](tel:0358590781)
+- 🗺️ [東京都中央区勝どき1-8-1](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D1-8-1)
+- 平日: 9:00-12:30, 14:00-17:30
+- 土: 9:00-12:30
+- 日: 不明
+- 祝: 不明
+- 備考: 旧表では小児科欄に記載（「小児科ないかも」のメモあり）
+- 科: 内科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="hamanaka"></a>浜中医院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-3531-0547](tel:0335310547)
+- 🗺️ [東京都中央区勝どき2-1-13](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D2-1-13)
+- 月・火・水・木: 9:30-13:00, 15:00-17:30
+- 金: 休診
+- 土: 9:30-13:00
+- 日: 不明
+- 祝: 不明
+- 科: 内科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="st-catherine"></a>聖カタリナ病院 ⚠️要確認
+
+- **距離** —
+- 📞 電話番号未登録
+- 🗺️ 住所未登録
+- 平日: 9:00-17:00
+- 土: 休診
+- 日: 不明
+- 祝: 不明
+- 備考: 呼吸器は火・木 9:00-17:00、水 13:00-17:00。住所・電話は旧表に記載なし
+- 科: 内科・呼吸器内科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="jikei-harumi-triton"></a>慈恵医大晴海トリトンクリニック ⚠️要確認
+
+- **距離** —
+- 📞 電話番号未登録
+- 🗺️ 住所未登録
+- 平日: 9:00-16:00
+- 土: 9:00-12:00
+- 日: 不明
+- 祝: 不明
+- 備考: 住所・電話は旧表に記載なし
+- 科: 内科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="harumi-clinic"></a>晴海クリニック ⚠️要確認
+
+- **距離** —
+- 📞 電話番号未登録
+- 🗺️ 住所未登録
+- 月・火・木・金: 9:00-12:30, 15:00-18:30
+- 水: 休診
+- 土: 9:00-12:30
+- 日: 不明
+- 祝: 不明
+- 備考: 住所・電話は旧表に記載なし
+- 科: 内科 ・ 確認 2024-05-12（旧xlsx）
+
+### 外科・整形外科
+
+#### <a id="kobikicho"></a>木挽町医院
+
+- **距離** —
+- 📞 [03-3541-3800](tel:0335413800)
+- 🗺️ [東京都中央区銀座4-11-4](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E9%8A%80%E5%BA%A74-11-4)
+- 平日: 24時間（急患）
+- 土: 24時間（急患）
+- 日: 24時間（急患）
+- 祝: 24時間（急患）
+- 休日の注意: 急患は365日24時間
+- 備考: 急患は時間外も対応。一般外来は平日 9-12・13-17、土 9-12（旧表）
+- 科: 外科・整形外科 ・ 確認 2026-09-24（公式サイト）
+
+#### <a id="st-lukes"></a>聖路加国際病院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-3541-5151](tel:0335415151) ・ 予約 [03-5550-7120](tel:0355507120)
+- 🗺️ [東京都中央区明石町9-1](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%98%8E%E7%9F%B3%E7%94%BA9-1)
+- 月・火・水: 9:00-12:00, 13:00-16:00
+- 木: 13:00-16:00
+- 金: 9:00-12:00
+- 土: 休診
+- 日: 不明
+- 祝: 不明
+- 備考: 紹介状なしの受診は選定療養費あり（旧表時点で5,500円）
+- 科: 外科・整形外科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="showa-koto-toyosu"></a>昭和大学江東豊洲病院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-6204-6000](tel:0362046000) ・ 予約 [03-6204-6489](tel:0362046489)
+- 🗺️ [東京都江東区豊洲5-1-38](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B1%9F%E6%9D%B1%E5%8C%BA%E8%B1%8A%E6%B4%B25-1-38)
+- 平日: 9:00-17:30
+- 土: 9:00-17:30
+- 日: 不明
+- 祝: 不明
+- 休日の注意: 11/15（創立記念日）と年末年始は休診
+- 備考: 予約センターは日〜土 8:30-14:00
+- 科: 外科・整形外科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="suzuki-hospital"></a>鈴木病院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-5617-5617](tel:0356175617)
+- 🗺️ [東京都江東区塩浜2-7-3](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B1%9F%E6%9D%B1%E5%8C%BA%E5%A1%A9%E6%B5%9C2-7-3)
+- 月・火: 10:00-12:30, 14:00-17:00
+- 水: 9:00-11:00
+- 木・金: 10:00-12:30
+- 土: 13:00-13:30
+- 日: 不明
+- 祝: 不明
+- 備考: 時間は旧表のまま（不規則なので要確認）
+- 科: 外科・整形外科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="ganken-ariake"></a>がん研有明病院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-3520-0111](tel:0335200111) ・ 初診 [03-3570-0541](tel:0335700541) ・ 再診 [03-3570-0507](tel:0335700507)
+- 🗺️ [東京都江東区有明3-8-31](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B1%9F%E6%9D%B1%E5%8C%BA%E6%9C%89%E6%98%8E3-8-31)
+- 平日: 9:00-12:00
+- 土: 休診
+- 日: 不明
+- 祝: 不明
+- 備考: 外来は予約制。代表番号は旧表で「急」と記載
+- 科: 外科 ・ 確認 2024-05-12（旧xlsx）
+
+### 皮膚科
+
+#### <a id="kachidoki-ekimae-naika-hifuka"></a>勝どき駅前内科皮ふ科クリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-5534-8350](tel:0355348350)
+- 🗺️ [東京都中央区勝どき3-5-5](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D3-5-5)
+- 月・火・水・金: 10:00-13:00, 15:00-19:00
+- 木: 10:00-13:00
+- 土: 10:00-13:00
+- 日: 休診
+- 祝: 不明
+- 備考: 受付は終了15分前まで
+- 科: 皮膚科・内科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="kachidoki-hifuka"></a>かちどき皮膚科クリニック～石原記念診療所～ ⚠️要確認
+
+- **距離** —
+- 📞 [03-5560-3000](tel:0355603000)
+- 🗺️ [東京都中央区勝どき4-2-14](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D4-2-14)
+- 月・火・水・金: 9:00-12:30, 15:00-18:00
+- 木: 休診
+- 土: 9:00-12:30
+- 日: 休診
+- 祝: 休診
+- 科: 皮膚科 ・ 確認 2024-05-12（旧xlsx）
+
+### 耳鼻咽喉科
+
+#### <a id="kachidoki-minami"></a>勝どきみなみクリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-3533-0715](tel:0335330715) ・ 自動受付 [03-5534-9300](tel:0355349300)
+- 🗺️ [東京都中央区勝どき4-8-5](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D4-8-5)
+- 月・火・水・金: 9:30-13:00, 15:00-19:00
+- 木: 休診
+- 土: 9:30-13:00
+- 日: 休診
+- 祝: 休診
+- 科: 耳鼻咽喉科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="kachidoki-ekimae-jibika"></a>勝どき駅前耳鼻咽喉科・頭頸部甲状腺クリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-5859-0563](tel:0358590563)
+- 🗺️ [東京都中央区勝どき3-5-5](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D3-5-5)
+- 平日: 9:30-12:00, 14:00-16:30
+- 土: 休診
+- 日: 不明
+- 祝: 不明
+- 科: 耳鼻咽喉科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="harumi-jibika"></a>晴海耳鼻咽喉科 ⚠️要確認
+
+- **距離** —
+- 📞 [03-5548-3387](tel:0355483387)
+- 🗺️ [東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%99%B4%E6%B5%B75-2-31%20%E3%82%89%E3%82%89%E3%83%86%E3%83%A9%E3%82%B9HARUMI%20FLAG%203F)
+- 平日: 9:30-12:30, 14:30-17:30
+- 土: 9:00-12:00, 13:30-15:30
+- 日: 9:00-12:00, 13:30-15:30
+- 祝: 休診
+- 休日の注意: 祝日は休診（土日は診療）
+- 科: 耳鼻咽喉科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="kachidoki-jibika-naika"></a>勝どき耳鼻咽喉科・内科クリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-3533-4133](tel:0335334133)
+- 🗺️ [東京都中央区勝どき4-2-13](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8B%9D%E3%81%A9%E3%81%8D4-2-13)
+- 月・火・木・金: 9:30-12:30, 15:00-18:00
+- 水: 休診
+- 土: 9:30-12:30
+- 日: 休診
+- 祝: 休診
+- 科: 耳鼻咽喉科・内科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="otsuki-jibika"></a>大築耳鼻咽喉科医院 ⚠️要確認
+
+- **距離** —
+- 📞 [03-3531-3387](tel:0335313387)
+- 🗺️ [東京都中央区月島4-3-1](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%9C%88%E5%B3%B64-3-1)
+- 月・木: 休診
+- 火・水: 10:00-13:00, 14:30-18:00
+- 金: 14:30-18:00
+- 土: 休診
+- 日: 不明
+- 祝: 不明
+- 備考: 金曜午後は臨時休診が多い
+- 科: 耳鼻咽喉科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="tsukishima-jibika"></a>月島耳鼻咽喉科 ⚠️要確認
+
+- **距離** —
+- 📞 [03-3533-1333](tel:0335331333)
+- 🗺️ [東京都中央区月島1-8-1 アイマーク](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E6%9C%88%E5%B3%B61-8-1%20%E3%82%A2%E3%82%A4%E3%83%9E%E3%83%BC%E3%82%AF)
+- 月・火・水・金: 9:00-12:00, 14:30-17:30
+- 木: 休診
+- 土: 9:00-12:00
+- 日: 休診
+- 祝: 休診
+- 科: 耳鼻咽喉科 ・ 確認 2024-05-12（旧xlsx）
+
+#### <a id="toyosu-mimihana"></a>豊洲みみはなのどクリニック ⚠️要確認
+
+- **距離** —
+- 📞 [03-5859-5133](tel:0358595133)
+- 🗺️ [東京都江東区豊洲2-1-9](https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B1%9F%E6%9D%B1%E5%8C%BA%E8%B1%8A%E6%B4%B22-1-9)
+- 平日: 9:30-13:00, 15:00-19:00
+- 土: 9:30-13:30
+- 日: 不明
+- 祝: 不明
+- 備考: 受付は終了15分前まで
+- 科: 耳鼻咽喉科 ・ 確認 2024-05-12（旧xlsx）
+
+## 印刷用カード
+
+`python scripts/build.py` で `dist/card-a4.html` ができる。Chrome で開いて印刷（A4 縦・倍率100%・余白「なし」または「デフォルト」・両面は長辺とじ）。
+1枚目が表、2枚目が裏。A6 サイズ4面を切り分けて、救急バッグ・財布・玄関・学校用に。
+裏面は手書き欄（氏名・アレルギー・保険証番号など）なので、個人情報はこのリポジトリに入らない。
+
+`dist/maps.csv` は Google マイマップに読み込める（位置は「住所」列）。科やタグ別のレイヤー用に `dist/maps-<タグ>.csv` も出力する。
+
+## 更新方法
+
+1. `data/clinics.yaml` を編集する（確認したら `verified` をその日付に）。
+2. `python scripts/build.py` を実行する（README.md と dist/ を再生成）。
+3. `data/clinics.yaml` と `README.md` をコミットする。
+
+初回のみ `pip install -r requirements.txt`。
+365日以上確認していない医院は `python scripts/check_stale.py` で一覧できる（該当があると終了コード 1）。
+徒歩距離はネットワークのある環境で自動計算され、`clinics.yaml` に書き戻される。再計算は `--refresh-distance`。
+
+## About
 
 Which clinics near Harumi are actually open — including Sundays,
 public holidays, and consecutive-holiday periods, which is exactly
-when the usual list stops being useful.
-
-Covers the Harumi, Kachidoki and Tsukishima area of Chuo City, Tokyo.
-Pediatrics, general internal medicine, after-hours emergency clinics,
-and the municipal holiday clinic.
-
-## Why this exists
-
-Most clinic lists record weekday hours and leave holidays implicit.
-The failure mode is predictable: you need a doctor on the third day
-of a long weekend, and the one clinic you remember turns out to close
-precisely on those days. This repository records holiday coverage as
-a first-class field and flags the clinics that close during
-consecutive holidays.
-
-## What's in here
-
-- `data/clinics.yaml` — the single source of truth. Hours use
-  OpenStreetMap opening_hours syntax, where `PH` means public holiday.
-- `README.md` — generated. Summary table of holiday coverage first,
-  full listing by specialty below, sorted by walking distance.
-- `dist/card-a4.html` — a printable A6 card, four-up on A4. Fold it
-  into a first-aid kit or tape it inside a cupboard door.
-- `dist/maps.csv` — importable into Google My Maps.
-
-Distances are measured from a fixed reference point in the area, not
-from any residence.
-
-## Accuracy
+when the usual list stops being useful. Holiday coverage is recorded
+as a first-class field (`PH` in OpenStreetMap opening_hours syntax),
+and clinics that close during consecutive holidays are flagged.
 
 Every entry carries its own `verified` date. Clinics change their
 hours without announcing it, so treat anything older than a year as
-unconfirmed — `scripts/check_stale.py` lists those. **Always call
-ahead.** Nothing here is medical advice, and the authoritative source
-is always the clinic's own website.
+unconfirmed. **Always call ahead.** Nothing here is medical advice;
+the authoritative source is always the clinic's own website.
 
-## Emergency numbers (Japan)
-
-- `119` — ambulance and fire
-- `#7119` — Tokyo emergency consultation (adults), 24h
-- `#8000` — pediatric after-hours consultation
+Distances are walking distances from a fixed public reference point
+(マルエツ晴海三丁目店), not from any residence. Routing by
+[OSRM](https://project-osrm.org/) and geocoding by
+[Nominatim](https://nominatim.org/), © OpenStreetMap contributors.
 
 ## License
 
