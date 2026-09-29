@@ -243,10 +243,16 @@ clinics:
   - id: st-catherine
     name: 聖カタリナ病院
     科: [内科, 呼吸器内科]
-    tel:
-    address:
+    tel: "03-5547-4912"
+    address: 東京都中央区晴海3-7-10
+    lat: 35.6550450
+    lon: 139.7789000
+    geo_source: gsi
+    walk_m: 164
+    walk_m_source: osrm
+    # 住所・電話は Google マップで補完（2026-09）。診療時間は旧xlsx のまま。
     hours: "Mo-Fr 09:00-17:00; Sa off"
-    note: 呼吸器は火・木 9:00-17:00、水 13:00-17:00。住所・電話は旧表に記載なし
+    note: 呼吸器は火・木 9:00-17:00、水 13:00-17:00
     url:
     tags: [内科]
     verified: 2024-05-12
@@ -255,22 +261,15 @@ clinics:
   - id: jikei-harumi-triton
     name: 慈恵医大晴海トリトンクリニック
     科: [内科]
-    tel:
-    address:
+    tel: "03-3531-3211"
+    address: 東京都中央区晴海1-8-8 アイランドトリトンスクエア オフィスタワーW 3階
+    lat: 35.6555560
+    lon: 139.7818300
+    geo_source: gsi
+    walk_m: 529
+    walk_m_source: osrm
+    # 住所・電話は Google マップで補完（2026-09）。診療時間は旧xlsx のまま。
     hours: "Mo-Fr 09:00-16:00; Sa 09:00-12:00"
-    note: 住所・電話は旧表に記載なし
-    url:
-    tags: [内科]
-    verified: 2024-05-12
-    source: 旧xlsx
-
-  - id: harumi-clinic
-    name: 晴海クリニック
-    科: [内科]
-    tel:
-    address:
-    hours: "Mo,Tu,Th,Fr 09:00-12:30,15:00-18:30; We off; Sa 09:00-12:30"
-    note: 住所・電話は旧表に記載なし
     url:
     tags: [内科]
     verified: 2024-05-12
