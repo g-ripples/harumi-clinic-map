@@ -1,4 +1,4 @@
-"""座標の補完（Nominatim）と徒歩距離（OSRM / Haversine 推定）の計算、YAML への書き戻し。"""
+"""座標の補完（国土地理院 / Nominatim）と徒歩距離（OSRM / Haversine 推定）の計算、YAML への書き戻し。"""
 
 from __future__ import annotations
 
@@ -16,6 +16,8 @@ USER_AGENT = "harumi-clinic-map/1.0 (+https://github.com/g-ripples/harumi-clinic
 TIMEOUT = 10
 DETOUR_FACTOR = 1.25  # 直線距離から徒歩距離を推定する係数
 
+# 日本の住所は国土地理院の住所検索が番・号まで引ける。見つからなければ Nominatim。
+GSI = "https://msearch.gsi.go.jp/address-search/AddressSearch"
 NOMINATIM = "https://nominatim.openstreetmap.org/search"
 # 上から順に試す。router.project-osrm.org のデモは profile 指定に関わらず
 # 車のルートを返すことがあるため、徒歩プロファイルを持つ FOSSGIS のサーバを先に試す。
@@ -31,6 +33,7 @@ class Net:
     def __init__(self, enabled: bool = True):
         self.enabled = enabled
         self._last_nominatim = 0.0
+        self._last_gsi = 0.0
         self.failure: str | None = None
 
     def get_json(self, url: str):
@@ -60,6 +63,14 @@ class Net:
         return self.get_json(url)
 
 
+    def gsi(self, query: str):
+        wait = self._last_gsi + 0.3 - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        self._last_gsi = time.monotonic()
+        return self.get_json(GSI + "?" + urllib.parse.urlencode({"q": query}))
+
+
 def _address_queries(address: str) -> list[tuple[str, bool]]:
     """住所 → (問い合わせ文字列, 近似か) のリスト。建物名を落とし、番地を後ろから削っていく。"""
     a = unicodedata.normalize("NFKC", address).replace("−", "-").replace("ー", "-")
@@ -76,6 +87,13 @@ def _address_queries(address: str) -> list[tuple[str, bool]]:
 
 def geocode(net: Net, address: str):
     """(lat, lon, source) か None。"""
+    full = _address_queries(address)[0][0]
+    res = net.gsi(full)
+    if res:
+        lon, lat = res[0]["geometry"]["coordinates"]
+        # 番・号まで一致しなかった場合は丁目などの代表点が返る
+        exact = re.search(r"[番号]$|番地", res[0]["properties"].get("title", ""))
+        return float(lat), float(lon), ("gsi" if exact else "gsi-approx")
     for q, approx in _address_queries(address):
         if not net.enabled:
             return None
@@ -106,20 +124,25 @@ def walk_distance(net: Net, origin, lat, lon):
     return round(d / 10) * 10, "estimated"
 
 
-def update_distances(clinics, origin, net: Net, refresh: bool) -> dict[str, dict]:
-    """書き戻すべきフィールドを {id: {key: value}} で返す。"""
+def update_distances(clinics, origin, net: Net, refresh: bool, refresh_geo: bool = False) -> dict[str, dict]:
+    """書き戻すべきフィールドを {id: {key: value}} で返す。
+
+    refresh_geo: 自動補完した座標（geo_source がある）を取り直す。手入力の座標には触れない。
+    """
     updates: dict[str, dict] = {}
     for c in clinics:
         upd: dict = {}
         lat, lon = c.lat, c.lon
-        if (lat is None or lon is None) and c.address:
+        regeo = refresh_geo and c.raw.get("geo_source")
+        if (lat is None or lon is None or regeo) and c.address:
             if net.enabled:
                 print(f"  座標を検索: {c.name}")
                 g = geocode(net, c.address)
                 if g:
-                    lat, lon, src = g
-                    upd.update(lat=round(lat, 7), lon=round(lon, 7), geo_source=src)
-        if lat is not None and lon is not None and (refresh or c.walk_m is None):
+                    lat, lon, src = round(g[0], 7), round(g[1], 7), g[2]
+                    if (lat, lon, src) != (c.lat, c.lon, c.raw.get("geo_source")):
+                        upd.update(lat=lat, lon=lon, geo_source=src)
+        if lat is not None and lon is not None and (refresh or c.walk_m is None or "lat" in upd):
             walk_m, src = walk_distance(net, origin, lat, lon)
             if walk_m != c.walk_m or src != c.walk_m_source:
                 upd.update(walk_m=walk_m, walk_m_source=src)

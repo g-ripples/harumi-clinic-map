@@ -12,9 +12,10 @@
 #
 # holiday_note: 「連休は休診」のような落とし穴を書く専用欄。
 # verified:     公式サイト等で最後に確認した日（エントリごと）。365日超で「要確認」。
-# lat / lon:    空なら build 時に住所から Nominatim で補完して書き戻す（手入力も可）。
+# lat / lon:    空なら build 時に住所から補完して書き戻す（国土地理院の住所検索 → Nominatim）。
+#               手入力も可（geo_source を書かなければ --refresh-geo でも上書きされない）。
 # walk_m / walk_m_source: build が自動で書き戻す。手で書かない。
-#   再計算は `python scripts/build.py --refresh-distance`
+#   再計算は `python scripts/build.py --refresh-distance`（住所を直したら --refresh-geo）
 #
 # 個人情報（自宅住所・氏名・保険証番号など）はこのリポジトリに一切書かないこと。
 
@@ -32,6 +33,11 @@ clinics:
     科: [小児科, 内科, アレルギー科]
     tel: "03-3533-7281"
     address: 東京都中央区勝どき3-5-5
+    lat: 35.6585390
+    lon: 139.7762150
+    geo_source: gsi
+    walk_m: 708
+    walk_m_source: osrm
     nearest: 勝どき駅 徒歩1分
     hours: "Mo-Fr 09:00-12:45,14:00-20:00; Sa,Su 09:00-13:00,14:00-17:00; PH 09:00-17:00"
     holiday_note: 年中無休
@@ -46,6 +52,11 @@ clinics:
     科: [小児科, 耳鼻咽喉科, 皮膚科, アレルギー科]
     tel: "03-3536-1361"
     address: 東京都中央区晴海1-8-16 晴海トリトンスクエア3F
+    lat: 35.6555560
+    lon: 139.7818300
+    geo_source: gsi
+    walk_m: 529
+    walk_m_source: osrm
     # 平日の時間は旧xlsx（2024-05-12）から移行。土日祝は 2026-09-24 に公式サイトで確認。
     hours: "Mo-Fr 09:00-12:30,15:30-18:30; Sa,Su,PH 08:30-12:30,13:30-15:30"
     holiday_note: 土日祝も診療
@@ -60,6 +71,11 @@ clinics:
     科: [小児科]
     tel: "03-5547-1191"
     address: 東京都中央区月島3-30-3
+    lat: 35.6609190
+    lon: 139.7794800
+    geo_source: gsi
+    walk_m: 1019
+    walk_m_source: osrm
     # 平日・土の時間は旧xlsx から移行。日祝は 2026-09-24 に公式サイトで確認。
     hours: "Mo-Fr 09:00-12:00,16:00-18:30; Sa 09:00-13:00; Su,PH 09:00-13:00"
     holiday_note: 休診は1/1〜1/3のみ
@@ -74,6 +90,11 @@ clinics:
     科: [小児科]
     tel: "03-3534-9002"
     address: 東京都中央区勝どき6-3-2
+    lat: 35.6561550
+    lon: 139.7737880
+    geo_source: gsi
+    walk_m: 565
+    walk_m_source: osrm
     # 日曜は「連休以外の日曜のみ午前診療」。時刻は土曜午前と同じと仮定。
     hours: 'Mo-We,Fr 09:00-12:30,14:00-18:00; Th,Sa 09:00-12:30; Su 09:00-12:30 "連休中は休診"; PH off'
     holiday_note: 連休は休診（日曜も休み）。日曜の午前診療は連休でない週のみ
@@ -88,6 +109,11 @@ clinics:
     科: [小児科, 内科]
     tel: "03-3533-3136"
     address: 東京都中央区佃2-17-8
+    lat: 35.6647910
+    lon: 139.7849880
+    geo_source: gsi
+    walk_m: 1678
+    walk_m_source: osrm
     nearest: 月島駅 徒歩1分
     hours: "Mo-Fr off; Sa 17:00-22:00; Su,PH 09:00-22:00"
     holiday_note: "平日は休診（平日夜は #8000 / #7119 へ）"
@@ -102,6 +128,11 @@ clinics:
     科: [小児科]
     tel: "03-5166-0150"
     address: 東京都中央区勝どき1-3-1
+    lat: 35.6609990
+    lon: 139.7768710
+    geo_source: gsi
+    walk_m: 973
+    walk_m_source: osrm
     hours: "Mo-We,Fr 09:00-12:00,15:00-17:30; Th,Sa 09:00-12:00"
     url:
     tags: [小児科]
@@ -113,6 +144,11 @@ clinics:
     科: [小児科]
     tel: "03-3534-2757"
     address: 東京都中央区晴海2-5-24
+    lat: 35.6555750
+    lon: 139.7826390
+    geo_source: gsi
+    walk_m: 627
+    walk_m_source: osrm
     hours: "Mo 09:00-12:30,14:30-16:30; Tu 09:00-12:30,14:30-17:00; We off; Th 09:00-12:30,15:30-18:00; Fr 09:00-12:00,15:30-18:00; Sa 09:00-12:30"
     url:
     tags: [小児科]
@@ -124,6 +160,11 @@ clinics:
     科: [小児科]
     tel: "03-6228-2517"
     address: 東京都中央区勝どき4-6-2 ミッド304
+    lat: 35.6574290
+    lon: 139.7776950
+    geo_source: gsi
+    walk_m: 492
+    walk_m_source: osrm
     hours: "Mo-Fr 09:00-12:30,15:00-18:30; Sa 10:00-14:30"
     note: 受付は終了15分前まで
     url:
@@ -136,6 +177,11 @@ clinics:
     科: [小児科]
     tel: "03-3532-7733"
     address: 東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F
+    lat: 35.6508030
+    lon: 139.7747040
+    geo_source: gsi
+    walk_m: 582
+    walk_m_source: osrm
     hours: "Mo-Fr 09:00-12:00,16:00-18:30; Sa 09:00-12:00,16:00-17:00; Su 09:00-12:00"
     url:
     tags: [小児科]
@@ -148,6 +194,11 @@ clinics:
     科: [内科]
     tel:
     address: 東京都中央区晴海3-10-1
+    lat: 35.6542930
+    lon: 139.7794040
+    geo_source: gsi
+    walk_m: 245
+    walk_m_source: osrm
     # 平日の時間は旧xlsx から移行。土日祝は 2026-09-24 に確認。電話番号は未登録。
     hours: "Mo-Fr 09:00-14:00,16:00-20:00; Sa,Su,PH 09:00-12:00,15:00-17:00"
     note: 大人向け。平日の時間は旧表から移行
@@ -161,6 +212,11 @@ clinics:
     科: [内科]
     tel: "03-5859-0781"
     address: 東京都中央区勝どき1-8-1
+    lat: 35.6600880
+    lon: 139.7767030
+    geo_source: gsi
+    walk_m: 874
+    walk_m_source: osrm
     hours: "Mo-Fr 09:00-12:30,14:00-17:30; Sa 09:00-12:30"
     note: 旧表では小児科欄に記載（「小児科ないかも」のメモあり）
     url:
@@ -173,6 +229,11 @@ clinics:
     科: [内科]
     tel: "03-3531-0547"
     address: 東京都中央区勝どき2-1-13
+    lat: 35.6596410
+    lon: 139.7790530
+    geo_source: gsi
+    walk_m: 824
+    walk_m_source: osrm
     hours: "Mo-Th 09:30-13:00,15:00-17:30; Fr off; Sa 09:30-13:00"
     url:
     tags: [内科]
@@ -221,6 +282,11 @@ clinics:
     科: [外科, 整形外科]
     tel: "03-3541-3800"
     address: 東京都中央区銀座4-11-4
+    lat: 35.6701130
+    lon: 139.7685390
+    geo_source: gsi
+    walk_m: 2358
+    walk_m_source: osrm
     hours: 'Mo-Su,PH 00:00-24:00 "急患"'
     holiday_note: 急患は365日24時間
     note: 急患は時間外も対応。一般外来は平日 9-12・13-17、土 9-12（旧表）
@@ -236,6 +302,11 @@ clinics:
     tel_alt:
       - {label: 予約, tel: "03-5550-7120"}
     address: 東京都中央区明石町9-1
+    lat: 35.6679650
+    lon: 139.7767790
+    geo_source: gsi
+    walk_m: 2078
+    walk_m_source: osrm
     hours: "Mo-We 09:00-12:00,13:00-16:00; Th 13:00-16:00; Fr 09:00-12:00; Sa off"
     note: 紹介状なしの受診は選定療養費あり（旧表時点で5,500円）
     url:
@@ -250,6 +321,11 @@ clinics:
     tel_alt:
       - {label: 予約, tel: "03-6204-6489"}
     address: 東京都江東区豊洲5-1-38
+    lat: 35.6509280
+    lon: 139.7963870
+    geo_source: gsi
+    walk_m: 2494
+    walk_m_source: osrm
     hours: "Mo-Sa 09:00-17:30"
     holiday_note: 11/15（創立記念日）と年末年始は休診
     note: 予約センターは日〜土 8:30-14:00
@@ -263,6 +339,11 @@ clinics:
     科: [外科, 整形外科]
     tel: "03-5617-5617"
     address: 東京都江東区塩浜2-7-3
+    lat: 35.6617580
+    lon: 139.8064420
+    geo_source: gsi
+    walk_m: 3468
+    walk_m_source: osrm
     hours: "Mo,Tu 10:00-12:30,14:00-17:00; We 09:00-11:00; Th,Fr 10:00-12:30; Sa 13:00-13:30"
     note: 時間は旧表のまま（不規則なので要確認）
     url:
@@ -278,6 +359,11 @@ clinics:
       - {label: 初診, tel: "03-3570-0541"}
       - {label: 再診, tel: "03-3570-0507"}
     address: 東京都江東区有明3-8-31
+    lat: 35.6338310
+    lon: 139.7942350
+    geo_source: gsi
+    walk_m: 2853
+    walk_m_source: osrm
     hours: "Mo-Fr 09:00-12:00; Sa off"
     note: 外来は予約制。代表番号は旧表で「急」と記載
     url:
@@ -291,6 +377,11 @@ clinics:
     科: [皮膚科, 内科]
     tel: "03-5534-8350"
     address: 東京都中央区勝どき3-5-5
+    lat: 35.6585390
+    lon: 139.7762150
+    geo_source: gsi
+    walk_m: 708
+    walk_m_source: osrm
     hours: "Mo-We,Fr 10:00-13:00,15:00-19:00; Th,Sa 10:00-13:00; Su off"
     note: 受付は終了15分前まで
     url:
@@ -303,6 +394,11 @@ clinics:
     科: [皮膚科]
     tel: "03-5560-3000"
     address: 東京都中央区勝どき4-2-14
+    lat: 35.6580770
+    lon: 139.7761690
+    geo_source: gsi
+    walk_m: 712
+    walk_m_source: osrm
     hours: "Mo-We,Fr 09:00-12:30,15:00-18:00; Th off; Sa 09:00-12:30; Su,PH off"
     url:
     tags: [皮膚科]
@@ -317,6 +413,11 @@ clinics:
     tel_alt:
       - {label: 自動受付, tel: "03-5534-9300"}
     address: 東京都中央区勝どき4-8-5
+    lat: 35.6566700
+    lon: 139.7759860
+    geo_source: gsi
+    walk_m: 698
+    walk_m_source: osrm
     hours: "Mo-We,Fr 09:30-13:00,15:00-19:00; Th off; Sa 09:30-13:00; Su,PH off"
     url:
     tags: [耳鼻咽喉科]
@@ -328,6 +429,11 @@ clinics:
     科: [耳鼻咽喉科]
     tel: "03-5859-0563"
     address: 東京都中央区勝どき3-5-5
+    lat: 35.6585390
+    lon: 139.7762150
+    geo_source: gsi
+    walk_m: 708
+    walk_m_source: osrm
     hours: "Mo-Fr 09:30-12:00,14:00-16:30; Sa off"
     url:
     tags: [耳鼻咽喉科]
@@ -339,6 +445,11 @@ clinics:
     科: [耳鼻咽喉科]
     tel: "03-5548-3387"
     address: 東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F
+    lat: 35.6508030
+    lon: 139.7747040
+    geo_source: gsi
+    walk_m: 582
+    walk_m_source: osrm
     hours: "Mo-Fr 09:30-12:30,14:30-17:30; Sa,Su 09:00-12:00,13:30-15:30; PH off"
     holiday_note: 祝日は休診（土日は診療）
     url:
@@ -351,6 +462,11 @@ clinics:
     科: [耳鼻咽喉科, 内科]
     tel: "03-3533-4133"
     address: 東京都中央区勝どき4-2-13
+    lat: 35.6580090
+    lon: 139.7760620
+    geo_source: gsi
+    walk_m: 725
+    walk_m_source: osrm
     hours: "Mo,Tu,Th,Fr 09:30-12:30,15:00-18:00; We off; Sa 09:30-12:30; Su,PH off"
     url:
     tags: [耳鼻咽喉科, 内科]
@@ -362,6 +478,11 @@ clinics:
     科: [耳鼻咽喉科]
     tel: "03-3531-3387"
     address: 東京都中央区月島4-3-1
+    lat: 35.6616520
+    lon: 139.7834470
+    geo_source: gsi
+    walk_m: 1304
+    walk_m_source: osrm
     hours: "Mo off; Tu,We 10:00-13:00,14:30-18:00; Th off; Fr 14:30-18:00; Sa off"
     note: 金曜午後は臨時休診が多い
     url:
@@ -374,6 +495,11 @@ clinics:
     科: [耳鼻咽喉科]
     tel: "03-3533-1333"
     address: 東京都中央区月島1-8-1 アイマーク
+    lat: 35.6648830
+    lon: 139.7834930
+    geo_source: gsi
+    walk_m: 1692
+    walk_m_source: osrm
     hours: "Mo-We,Fr 09:00-12:00,14:30-17:30; Th off; Sa 09:00-12:00; Su,PH off"
     url:
     tags: [耳鼻咽喉科]
@@ -385,6 +511,11 @@ clinics:
     科: [耳鼻咽喉科]
     tel: "03-5859-5133"
     address: 東京都江東区豊洲2-1-9
+    lat: 35.6567760
+    lon: 139.7939760
+    geo_source: gsi
+    walk_m: 1885
+    walk_m_source: osrm
     hours: "Mo-Fr 09:30-13:00,15:00-19:00; Sa 09:30-13:30"
     note: 受付は終了15分前まで
     url:

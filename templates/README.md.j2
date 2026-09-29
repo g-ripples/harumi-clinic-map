@@ -94,7 +94,7 @@ GitHub Actions（`.github/workflows/today.yml`）が毎朝 6:00（日本時間�
 
 初回のみ `pip install -r requirements.txt`。
 {{ stale_days }}日以上確認していない医院は `python scripts/check_stale.py` で一覧できる（該当があると終了コード 1）。
-徒歩距離はネットワークのある環境で自動計算され、`clinics.yaml` に書き戻される。再計算は `--refresh-distance`。
+徒歩距離はネットワークのある環境で自動計算され、`clinics.yaml` に書き戻される。再計算は `--refresh-distance`、住所を直したら `--refresh-geo`（座標は国土地理院の住所検索、見つからなければ Nominatim）。
 
 ## About
 
@@ -111,8 +111,9 @@ the authoritative source is always the clinic's own website.
 
 Distances are walking distances from a fixed public reference point
 ({{ origin.name }}), not from any residence. Routing by
-[OSRM](https://project-osrm.org/) and geocoding by
-[Nominatim](https://nominatim.org/), © OpenStreetMap contributors.
+[OSRM](https://project-osrm.org/) and geocoding by the
+[GSI address search](https://msearch.gsi.go.jp/) (国土地理院) with
+[Nominatim](https://nominatim.org/) as fallback, © OpenStreetMap contributors.
 
 ## License
 

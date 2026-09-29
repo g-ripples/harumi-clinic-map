@@ -3,6 +3,7 @@
 
     python scripts/build.py                     # 通常（距離はキャッシュを使用）
     python scripts/build.py --refresh-distance  # 徒歩距離を再計算
+    python scripts/build.py --refresh-geo       # 自動補完した座標を取り直し、距離も再計算
     python scripts/build.py --offline           # 外部 API を一切呼ばない
 """
 
@@ -149,13 +150,16 @@ def git_self_check() -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--refresh-distance", action="store_true", help="徒歩距離をすべて再計算する")
+    ap.add_argument("--refresh-geo", action="store_true",
+                    help="自動補完した座標（geo_source あり）を住所から取り直す")
     ap.add_argument("--offline", action="store_true", help="Nominatim / OSRM を呼ばない")
     args = ap.parse_args()
 
     try:
         data = load()
         net = geo.Net(enabled=not args.offline)
-        updates = geo.update_distances(data["clinics"], data["origin"], net, args.refresh_distance)
+        updates = geo.update_distances(data["clinics"], data["origin"], net,
+                                          args.refresh_distance, args.refresh_geo)
         if updates:
             geo.patch_yaml(DATA, updates)
             data = load()  # 書き戻した YAML を読み直して検証
