@@ -217,20 +217,22 @@ clinics:
   - id: kachidoki-viewtower
     name: 勝どきビュータワークリニック
     section: 小児科
-    科: [内科]
+    科: [内科, 循環器内科]
     tel: "03-5859-0781"
-    address: 東京都中央区勝どき1-8-1
+    address: 東京都中央区勝どき1-8-1 勝どきビュータワー2F
     lat: 35.6600880
     lon: 139.7767030
     geo_source: gsi
     walk_m: 874
     walk_m_source: osrm
-    hours: "Mo-Fr 09:00-12:30,14:00-17:30; Sa 09:00-12:30"
-    note: 公式の診療科は内科。旧表では小児科欄に記載（「小児科ないかも」のメモあり）
-    url:
+    hours: "Mo-Fr 08:30-12:30,14:00-17:30; Sa 08:30-12:30; Su,PH off"
+    last_entry: 公式サイトに記載なし
+    holiday_note: 日曜・祝日休診
+    note: 公式の診療科は内科・循環器内科。旧表では小児科欄に記載（「小児科ないかも」のメモあり）。風邪症状・発熱は来院前に電話
+    url: "https://www.kenyoukai.jp/"
     tags: [内科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   # ───────────── 大人用 ─────────────
   - id: harumi-3chome
@@ -259,7 +261,7 @@ clinics:
   - id: hamanaka
     name: 浜中医院
     section: 大人用
-    科: [内科]
+    科: [内科, 整形外科, 外科, リハビリテーション科]
     tel: "03-3531-0547"
     address: 東京都中央区勝どき2-1-13
     lat: 35.6596410
@@ -267,16 +269,21 @@ clinics:
     geo_source: gsi
     walk_m: 824
     walk_m_source: osrm
-    hours: "Mo-Th 09:30-13:00,15:00-17:30; Fr off; Sa 09:30-13:00"
+    # 公式サイトなし。医療情報ネット（厚労省、2026-02-09 更新）による。
+    hours: "Mo-Th 09:30-13:00,15:00-17:30; Fr off; Sa 09:30-13:00; Su,PH off"
+    last_entry: 医療情報ネットでは受付時間＝診療時間
+    special_days:
+      - {dates: "1/1-1/4", hours: "off"}
+    holiday_note: 金・日・祝休診。1/1〜1/4休診
     url:
     tags: [内科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 医療情報ネット
 
   - id: st-catherine
     name: 聖カタリナ病院
     section: 大人用
-    科: [内科, 呼吸器内科]
+    科: [内科, 整形外科, 皮膚科]
     tel: "03-5547-4912"
     address: 東京都中央区晴海3-7-10
     lat: 35.6550450
@@ -284,13 +291,14 @@ clinics:
     geo_source: gsi
     walk_m: 164
     walk_m_source: osrm
-    # 住所・電話は Google マップで補完（2026-09）。診療時間は旧xlsx のまま。
-    hours: "Mo-Fr 09:00-17:00; Sa off"
-    note: 呼吸器は火・木 9:00-17:00、水 13:00-17:00
-    url:
+    hours: "Mo-Fr 08:30-17:00; Sa,Su,PH off"
+    last_entry: 診療科・曜日により異なる（外来担当医表で確認）
+    holiday_note: 土・日・祝休診
+    note: 内科は要予約。診療科・曜日により受付時間が異なる
+    url: "https://hospital-catherine.com/guidance/index.html"
     tags: [内科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: jikei-harumi-triton
     name: 慈恵医大晴海トリトンクリニック
@@ -303,12 +311,18 @@ clinics:
     geo_source: gsi
     walk_m: 529
     walk_m_source: osrm
-    # 住所・電話は Google マップで補完（2026-09）。診療時間は旧xlsx のまま。
-    hours: "Mo-Fr 09:00-16:00; Sa 09:00-12:00"
-    url:
+    hours: "Mo-Fr 08:45-12:00,13:45-18:00; Sa 08:45-12:00; Su,PH off"
+    last_entry: "公式の「診療受付時間」で記載（診療は9:00・14:00から）"
+    special_days:
+      - {dates: "5/1", hours: "off"}
+      - {dates: "2026-10-10", hours: "off"}
+      - {dates: "12/29-1/3", hours: "off"}
+    holiday_note: 日・祝休診。大学記念日（5/1・10月第2土曜）と年末年始（12/29〜1/3）も休診
+    note: 人間ドック・健診が中心。科目により診療日が異なる
+    url: "https://www.hosp.jikei.ac.jp/harumi/about/"
     tags: [内科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   # ───────────── 外科・整形外科の救急 ─────────────
   - id: kobikicho
@@ -336,7 +350,7 @@ clinics:
   - id: st-lukes
     name: 聖路加国際病院
     section: 外科・整形外科の救急
-    科: [外科, 整形外科]
+    科: [救急科, 外科, 整形外科, 内科, 小児科]
     tel: "03-3541-5151"
     tel_alt:
       - {label: 予約, tel: "03-5550-7120"}
@@ -346,15 +360,18 @@ clinics:
     geo_source: gsi
     walk_m: 2078
     walk_m_source: osrm
-    hours: "Mo-We 09:00-12:00,13:00-16:00; Th 13:00-16:00; Fr 09:00-12:00; Sa off"
-    note: 紹介状なしの受診は選定療養費あり（旧表時点で5,500円）
-    url:
-    tags: [外科, 整形外科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    # 公式サイトは自動取得を拒否。医療情報ネット（厚労省、2026-05-29 更新）による。
+    hours: 'Mo-Su,PH 00:00-24:00 "救急科"'
+    last_entry: "救急科は24時間。一般外来の受付は平日 8:30-11:00"
+    holiday_note: 救急科は365日24時間（休日・全夜間診療：内科系・小児科・外科系）。一般外来は土日祝・年末年始休診
+    note: "一般外来は原則予約・紹介制。紹介状なしの初診 8,800円、時間外 11,000円の選定療養費"
+    url: "https://hospital.luke.ac.jp/"
+    tags: [外科, 整形外科, 祝日可, 夜間, 24時間]
+    verified: 2026-10-01
+    source: 医療情報ネット
 
   - id: showa-koto-toyosu
-    name: 昭和大学江東豊洲病院
+    name: 昭和医科大学江東豊洲病院
     section: 外科・整形外科の救急
     科: [外科, 整形外科]
     tel: "03-6204-6000"
@@ -366,13 +383,17 @@ clinics:
     geo_source: gsi
     walk_m: 2494
     walk_m_source: osrm
-    hours: "Mo-Sa 09:00-17:30"
-    holiday_note: 11/15（創立記念日）と年末年始は休診
-    note: 予約センターは日〜土 8:30-14:00
-    url:
-    tags: [外科, 整形外科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    hours: "Mo-Su,PH 08:30-14:00"
+    last_entry: "初診受付は14:00まで（診療科により異なる）。再診は17:00まで"
+    special_days:
+      - {dates: "11/15", hours: "off"}
+      - {dates: "12/29-1/3", hours: "off"}
+    holiday_note: 日曜・祝日も外来あり。11/15（創立記念日）と年末年始（12/29〜1/3）休診
+    note: "初診は紹介状が原則。紹介状なしは選定療養費7,700円。予約センター（03-6204-6489）は平日8:30-17:00・土8:30-12:30"
+    url: "https://www.showa-u.ac.jp/SHKT/patient/outpatient/"
+    tags: [外科, 整形外科, 祝日可]
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: suzuki-hospital
     name: 鈴木病院
@@ -408,12 +429,16 @@ clinics:
     geo_source: gsi
     walk_m: 2853
     walk_m_source: osrm
-    hours: "Mo-Fr 09:00-12:00; Sa off"
-    note: 外来は予約制。代表番号は旧表で「急」と記載
-    url:
+    hours: "Mo-Fr 08:30-12:00; Sa,Su,PH off"
+    last_entry: 外来受付は正午まで
+    special_days:
+      - {dates: "12/29-1/3", hours: "off"}
+    holiday_note: 土・日・祝・年末年始（12/29〜1/3）休診
+    note: がん専門病院。外来は原則予約制で、一般の急病向けではない
+    url: "https://www.jfcr.or.jp/hospital/examination/outpatient/"
     tags: [外科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト・医療情報ネット
 
   # ───────────── 皮膚科 ─────────────
   - id: harumi-triton-yumemirai-hifuka
@@ -427,48 +452,55 @@ clinics:
     geo_source: gsi
     walk_m: 529
     walk_m_source: osrm
-    # 旧表の「皮膚科」行から移行（小児科とは曜日・時間が違う）。未確認。
-    hours: "Mo-We,Fr 09:00-12:30,14:30-18:30; Th,Sa off; Su,PH 08:30-12:30,13:30-15:30"
-    note: 小児科は別の行を参照。旧表メモ「閉店15分前受付〆切」
+    # 時間は公式サイト（access.html）の皮膚科の表と最終受付表による。
+    hours: 'Mo 08:30-12:15 "第1・第3月曜のみ"; Tu,We,Fr 08:30-12:15,14:30-18:15; Th,Sa,Su off; PH 08:30-12:15,13:30-15:15'
+    last_entry: "各枠の診療終了15分前（平日 12:15・18:15、祝日 12:15・15:15）"
+    holiday_note: "祝日は診療（午後は13:30-15:30）"
+    note: 皮膚科の時間（小児科は別の行）。月曜は第1・第3のみ午前
     url: "https://yumemirai-clinic.net/"
     tags: [皮膚科, 祝日可]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: kachidoki-ekimae-naika-hifuka
     name: 勝どき駅前内科皮ふ科クリニック
     section: 皮膚科
-    科: [皮膚科, 内科]
-    tel: "03-5534-8350"
+    科: [皮膚科, 形成外科]
+    tel: "03-5859-0944"
     address: 東京都中央区勝どき3-5-5
     lat: 35.6585390
     lon: 139.7762150
     geo_source: gsi
     walk_m: 708
     walk_m_source: osrm
-    hours: "Mo-We,Fr 10:00-13:00,15:00-19:00; Th,Sa 10:00-13:00; Su off"
-    note: 受付は終了15分前まで
-    url:
+    hours: "Mo-We,Fr 10:00-12:45,15:00-18:45; Th,Sa 10:00-12:45; Su,PH off"
+    last_entry: "受付は 12:45・18:45 まで"
+    holiday_note: 木曜午後・土曜午後・日祝休診
+    note: "公式サイトの診療科は皮膚科・形成外科（旧表の電話 03-5534-8350 から変更）。月・水15:00-15:30、金15:00-16:00は手術のため午後の診療開始が遅れることあり。急患随時受付（来院前に電話）"
+    url: "https://kachidoki.jiankai.jp/"
     tags: [皮膚科, 内科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: kachidoki-hifuka
     name: かちどき皮膚科クリニック～石原記念診療所～
     section: 皮膚科
     科: [皮膚科]
     tel: "03-5560-3000"
-    address: 東京都中央区勝どき4-2-14
+    address: 東京都中央区勝どき4-2-14 コスモグラン勝どき1階
     lat: 35.6580770
     lon: 139.7761690
     geo_source: gsi
     walk_m: 712
     walk_m_source: osrm
-    hours: "Mo-We,Fr 09:00-12:30,15:00-18:00; Th off; Sa 09:00-12:30; Su,PH off"
-    url:
+    hours: "Mo off; Tu 10:30-12:20; We-Fr off; Sa 10:30-12:20; Su,PH off"
+    last_entry: "受付は 10:30〜12:20（診療は12:30まで）"
+    holiday_note: 診療は火曜・土曜の午前のみ
+    note: 電話予約不可
+    url: "http://www.kachidokihifu.com/"
     tags: [皮膚科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   # ───────────── 耳鼻咽喉科 ─────────────
   - id: kachidoki-minami
@@ -478,17 +510,20 @@ clinics:
     tel: "03-3533-0715"
     tel_alt:
       - {label: 自動受付, tel: "03-5534-9300"}
-    address: 東京都中央区勝どき4-8-5
+    address: 東京都中央区勝どき4-8-5 アクティ東仲通り1F
     lat: 35.6566700
     lon: 139.7759860
     geo_source: gsi
     walk_m: 698
     walk_m_source: osrm
-    hours: "Mo-We,Fr 09:30-13:00,15:00-19:00; Th off; Sa 09:30-13:00; Su,PH off"
-    url:
+    hours: "Mo-We,Fr 09:30-13:00,15:00-19:00; Th off; Sa 08:30-13:00; Su,PH off"
+    last_entry: "公式の時間は窓口受付時間（平日は19:00まで受付）"
+    holiday_note: 木曜・土曜午後・日祝休診
+    note: 人員不足で受付が早く終わることあり。臨時休診は公式サイトで
+    url: "https://kachidoki-clinic.jp/"
     tags: [耳鼻咽喉科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: kachidoki-ekimae-jibika
     name: 勝どき駅前耳鼻咽喉科・頭頸部甲状腺クリニック
@@ -501,11 +536,16 @@ clinics:
     geo_source: gsi
     walk_m: 708
     walk_m_source: osrm
-    hours: "Mo-Fr 09:30-12:00,14:00-16:30; Sa off"
+    # 公式サイトなし。医療情報ネット（厚労省、2026-01-13 更新）による。
+    hours: "Mo-Fr 09:30-12:00,14:00-16:30; Sa,Su,PH off"
+    last_entry: 医療情報ネットの外来受付時間（診療時間と同じ）
+    special_days:
+      - {dates: "12/29-1/3", hours: "off"}
+    holiday_note: 土日祝・GW・お盆・年末年始休診
     url:
     tags: [耳鼻咽喉科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 医療情報ネット
 
   - id: harumi-jibika
     name: 晴海耳鼻咽喉科
@@ -532,17 +572,20 @@ clinics:
     section: 耳鼻咽喉科
     科: [耳鼻咽喉科, 内科]
     tel: "03-3533-4133"
-    address: 東京都中央区勝どき4-2-13
+    address: 東京都中央区勝どき4-2-13 サンパレス辻野1F
     lat: 35.6580090
     lon: 139.7760620
     geo_source: gsi
     walk_m: 725
     walk_m_source: osrm
     hours: "Mo,Tu,Th,Fr 09:30-12:30,15:00-18:00; We off; Sa 09:30-12:30; Su,PH off"
-    url:
+    last_entry: 公式サイトに記載なし（受付開始は15分前から）
+    holiday_note: 水・日・祝休診
+    note: 耳鼻咽喉科の時間。内科は火・木・土の午前と火・木の午後（午後は予約制）
+    url: "http://chiyokai.com/"
     tags: [耳鼻咽喉科, 内科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: otsuki-jibika
     name: 大築耳鼻咽喉科医院
@@ -555,47 +598,54 @@ clinics:
     geo_source: gsi
     walk_m: 1304
     walk_m_source: osrm
-    hours: "Mo off; Tu,We 10:00-13:00,14:30-18:00; Th off; Fr 14:30-18:00; Sa off"
-    note: 金曜午後は臨時休診が多い
+    # 公式サイトなし。医療情報ネット（厚労省、2026-02-05 更新）による。
+    hours: "Mo off; Tu,We 10:00-13:00,14:30-18:00; Th off; Fr 14:30-18:00; Sa,Su,PH off"
+    last_entry: 医療情報ネットの外来受付時間（診療時間と同じ）
+    holiday_note: 月・木・土・日・祝休診
+    note: 予約も可（時間の確約はなし）。旧表メモ：金曜午後は臨時休診が多い
     url:
     tags: [耳鼻咽喉科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 医療情報ネット
 
   - id: tsukishima-jibika
     name: 月島耳鼻咽喉科
     section: 耳鼻咽喉科
     科: [耳鼻咽喉科]
     tel: "03-3533-1333"
-    address: 東京都中央区月島1-8-1 アイマーク
+    address: 東京都中央区月島1-8-1 アイマークタワー2F
     lat: 35.6648830
     lon: 139.7834930
     geo_source: gsi
     walk_m: 1692
     walk_m_source: osrm
     hours: "Mo-We,Fr 09:00-12:00,14:30-17:30; Th off; Sa 09:00-12:00; Su,PH off"
-    url:
+    last_entry: "受付は 12:00・17:30 まで（診療は 12:30・18:00 まで）"
+    holiday_note: 木・日・祝休診
+    url: "https://tsukishima-ent.com/"
     tags: [耳鼻咽喉科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: toyosu-mimihana
     name: 豊洲みみはなのどクリニック
     section: 耳鼻咽喉科
     科: [耳鼻咽喉科]
     tel: "03-5859-5133"
-    address: 東京都江東区豊洲2-1-9
+    address: 東京都江東区豊洲2-1-9 豊洲セイルパークビル205
     lat: 35.6567760
     lon: 139.7939760
     geo_source: gsi
     walk_m: 1885
     walk_m_source: osrm
-    hours: "Mo-Fr 09:30-13:00,15:00-19:00; Sa 09:30-13:30"
-    note: 受付は終了15分前まで
-    url:
+    hours: "Mo-Fr 09:30-12:45,15:00-18:45; Sa 09:30-12:45,15:00-16:45; Su 09:30-13:15; PH off"
+    last_entry: 診療終了の15分前
+    holiday_note: 祝日休診（日曜は午前診療）
+    note: "予約優先。診療は平日 9:30-13:00・15:00-19:00、土 〜17:00、日 9:30-13:30"
+    url: "https://www.toyosu-ent.com/"
     tags: [耳鼻咽喉科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   # ───────────── 薬局 ─────────────
   # hours は処方せん受付の時間。電話・住所は京橋薬剤師会「医薬品提供体制リスト化（在宅）」
