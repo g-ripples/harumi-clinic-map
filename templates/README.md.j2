@@ -9,6 +9,8 @@
 
 **必ず電話で確認してから向かうこと。** 急を要する場合は迷わず **119**。
 
+⏰ 時間はすべて**受付できる時間（最終受付まで）**。診療終了時刻ではない。
+
 ## 休日・祝日に開いている
 
 | 医院 | 距離 | 日 | 祝 | 確認日 |
@@ -58,6 +60,7 @@
 - 土: {{ fmt_day(c.hours.get("Sa")) }}
 - 日: {{ fmt_day(c.hours.get("Su")) }}
 - 祝: {{ holiday_text(c) }}
+- 最終受付: {{ c.last_entry or "未確認" }}
 {% if c.holiday_note %}
 - 休日の注意: {{ c.holiday_note }}
 {% endif %}
@@ -89,6 +92,7 @@ GitHub Actions（`.github/workflows/today.yml`）が毎朝 6:00（日本時間�
 ## 更新方法
 
 1. `data/clinics.yaml` を編集する（確認したら `verified` をその日付に）。
+   公式サイトは時間表だけでなく「最終受付は終了30分前」などの規定も探し、`hours` は最終受付までの時間で書き、規定を `last_entry` に残す。
 2. `python scripts/build.py` を実行する（README.md と dist/ を再生成）。
 3. `data/clinics.yaml` と `README.md` をコミットする。
 

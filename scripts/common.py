@@ -176,7 +176,7 @@ class Clinic:
         if name in raw:
             return raw[name]
         if name in ("tel", "address", "nearest", "holiday_note", "note", "url",
-                    "lat", "lon", "walk_m", "walk_m_source", "tel_alt"):
+                    "lat", "lon", "walk_m", "walk_m_source", "tel_alt", "last_entry"):
             return None
         raise AttributeError(name)
 

@@ -66,7 +66,7 @@
 {% if day.nenmatsu %}
 <p class="alert">⚠ 年末年始は通常と違う診療時間の医院が多い。必ず電話で確認を。</p>
 {% endif %}
-<p class="meta">距離は{{ origin.name }}（{{ origin.address | replace("東京都中央区", "") }}）からの徒歩の目安。「要確認」は1年以上情報を確認していない医院。受診前に必ず電話で確認すること。</p>
+<p class="meta"><b>時間は受付できる時間（最終受付まで）。</b>距離は{{ origin.name }}（{{ origin.address | replace("東京都中央区", "") }}）からの徒歩の目安。「要確認」は1年以上情報を確認していない医院。受診前に必ず電話で確認すること。</p>
 
 <h2>開いている医院（{{ open | length }}件・近い順）</h2>
 {% if open %}
