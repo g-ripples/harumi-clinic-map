@@ -696,19 +696,22 @@ clinics:
     section: 薬局
     科: [薬局]
     tel: "03-3531-9388"
-    address: 東京都中央区晴海3-12-1
+    tel_alt:
+      - {label: 店舗, tel: "03-3532-9341"}
+    address: 東京都中央区晴海3-12-1 KDX晴海ビル1階
     lat: 35.6548920
     lon: 139.7788090
     geo_source: gsi
     walk_m: 161
     walk_m_source: osrm
-    # 公式（マツモトキヨシの店舗ページ）は自動取得を拒否されたため未確認。時間は「くすりの窓口」の掲載。
+    # 時間は公式（マツキヨココカラの店舗ページ、利用者がスマホで確認したスクリーンショット）。
     hours: "Mo-Fr 09:00-19:30; Sa,Su,PH 09:00-17:00"
-    note: 時間は公式未確認（くすりの窓口の調剤受付時間）。電話は調剤の番号
-    url: "https://www.matsukiyo.co.jp/map?kid=20306420"
+    last_entry: 調剤受付時間で記載（店舗は毎日 9:00-21:00）
+    note: 店舗名は「どらっぐぱぱす 晴海店」。調剤・店舗とも無休
+    url: "https://www.matsukiyococokara-online.com/map?kid=20306420"
     tags: [薬局, 祝日可]
-    verified:
-    source: くすりの窓口（公式未確認）
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: nicho-harumi
     name: 日本調剤 晴海薬局
