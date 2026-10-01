@@ -4,6 +4,10 @@
 ⚠️ 連休のため除外: {{ renkyu_closed | map(attribute="name") | join("、") }}
 
 {% endif %}
+{% if special_closed %}
+本日は休診日: {% for c, label in special_closed %}{{ c.name }}（{{ label }}）{{ "、" if not loop.last }}{% endfor %}
+
+{% endif %}
 {% if day.nenmatsu %}
 ⚠️ 年末年始は必ず電話で確認。
 

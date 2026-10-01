@@ -61,6 +61,9 @@
 - 日: {{ fmt_day(c.hours.get("Su")) }}
 - 祝: {{ holiday_text(c) }}
 - 最終受付: {{ c.last_entry or "未確認" }}
+{% if c.special %}
+- 特別な日: {{ c.special_text | join(" ／ ") }}
+{% endif %}
 {% if c.holiday_note %}
 - 休日の注意: {{ c.holiday_note }}
 {% endif %}

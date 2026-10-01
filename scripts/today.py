@@ -7,6 +7,7 @@
 
 平日 / 土曜 / 日曜 / 祝日 を判定し、その日の hours で開いている医院を近い順に並べる。
 土日祝が3日以上続く「連休」中は、holiday_note に「連休は休診」とある医院を除外する。
+special_days（年末年始など）に当たる日は、通常の曜日の時間よりそちらを優先する。
 """
 
 from __future__ import annotations
@@ -76,11 +77,13 @@ def main() -> int:
         print(f"✗ {e}", file=sys.stderr)
         return 1
 
-    open_, unknown, renkyu_closed = [], [], []
+    open_, unknown, renkyu_closed, special_closed = [], [], [], []
     for c in data["clinics"]:
-        h = c.hours.get(day["key"])
+        h, special = c.hours_on(target, day["key"])
         if h is None:
             unknown.append(c)
+        elif special and not h.open:
+            special_closed.append((c, special.label))
         elif h.open:
             if day["renkyu"] and c.renkyu_trap:
                 renkyu_closed.append(c)
@@ -90,6 +93,7 @@ def main() -> int:
     unknown.sort(key=lambda c: c.sort_key)
 
     ctx = dict(day=day, open=open_, unknown=unknown, renkyu_closed=renkyu_closed,
+               special_closed=special_closed,
                origin=data["origin"], total=len(data["clinics"]))
     DIST.mkdir(exist_ok=True)
     out = DIST / f"today-{target}.html"

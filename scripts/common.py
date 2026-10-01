@@ -162,6 +162,67 @@ def group_days(hours: dict[str, DayHours], days: list[str]) -> list[tuple[str, s
     return [(day_label(buckets[k]), fmt_day(hours.get(buckets[k][0]))) for k in order]
 
 
+# ───────────────────────── 特別な日（年末年始など） ─────────────────────────
+
+@dataclass
+class SpecialDays:
+    """special_days の1行。毎年: "12/29-1/3" / "11/15"、その年だけ: "2026-05-03~2026-05-06"。"""
+    src: str
+    start: tuple | dt.date
+    end: tuple | dt.date
+    hours: DayHours
+
+    def matches(self, d: dt.date) -> bool:
+        if isinstance(self.start, dt.date):
+            return self.start <= d <= self.end
+        md = (d.month, d.day)
+        if self.start <= self.end:
+            return self.start <= md <= self.end
+        return md >= self.start or md <= self.end  # 12/29-1/3 のように年をまたぐ
+
+    @property
+    def label(self) -> str:
+        return self.src.replace("~", "〜").replace("-", "〜") if isinstance(self.start, tuple) \
+            else self.src.replace("~", "〜")
+
+
+_MD = re.compile(r"^(\d{1,2})/(\d{1,2})$")
+
+
+def _parse_md(s: str, src: str) -> tuple[int, int]:
+    m = _MD.match(s)
+    if not m:
+        raise DataError(f"special_days の日付 {s!r} を解釈できない: {src!r}")
+    mo, d = int(m[1]), int(m[2])
+    try:
+        dt.date(2024, mo, d)  # うるう年で妥当性チェック
+    except ValueError:
+        raise DataError(f"special_days の日付 {s!r} が不正: {src!r}") from None
+    return mo, d
+
+
+def parse_special(items) -> list[SpecialDays]:
+    out = []
+    for it in items or []:
+        if not isinstance(it, dict) or not isinstance(it.get("dates"), str) or not isinstance(it.get("hours"), str):
+            raise DataError(f'special_days は {{dates: "12/29-1/3", hours: "off"}} の形で書く（hours も引用符で囲む）: {it!r}')
+        src = it["dates"].strip()
+        try:
+            if re.match(r"^\d{4}-", src):
+                a, _, b = src.partition("~")
+                start = dt.date.fromisoformat(a.strip())
+                end = dt.date.fromisoformat((b or a).strip())
+            else:
+                a, _, b = src.partition("-")
+                start, end = _parse_md(a.strip(), src), _parse_md((b or a).strip(), src)
+        except ValueError:
+            raise DataError(f"special_days の日付 {src!r} を解釈できない") from None
+        if isinstance(start, dt.date) and start > end:
+            raise DataError(f"special_days の期間が逆順: {src!r}")
+        out.append(SpecialDays(src, start, end, DayHours(_parse_times(it["hours"].strip(), src))))
+    return out
+
+
 # ───────────────────────── 読み込み ─────────────────────────
 
 @dataclass
@@ -169,7 +230,7 @@ class Clinic:
     raw: dict
     hours: dict[str, DayHours]
     today: dt.date
-    extra: dict = field(default_factory=dict)
+    special: list[SpecialDays] = field(default_factory=list)
 
     def __getattr__(self, name):
         raw = self.__dict__.get("raw", {})
@@ -207,6 +268,15 @@ class Clinic:
     @property
     def open_sunday(self) -> bool:
         return bool(self.hours.get("Su") and self.hours["Su"].open)
+
+    def hours_on(self, d: dt.date, key: str) -> tuple[DayHours | None, SpecialDays | None]:
+        """その日の受付時間。special_days に当たればそちらを優先（後に書いたものが勝つ）。"""
+        hit = next((s for s in reversed(self.special) if s.matches(d)), None)
+        return (hit.hours, hit) if hit else (self.hours.get(key), None)
+
+    @property
+    def special_text(self) -> list[str]:
+        return [f"{s.label} {fmt_day(s.hours)}" for s in self.special]
 
     @property
     def renkyu_trap(self) -> bool:
@@ -281,7 +351,12 @@ def load(today: dt.date | None = None, path: Path = DATA) -> dict:
         except DataError as e:
             errors.append(f"{cid}: {e}")
             continue
-        c = Clinic(raw, hours, today)
+        try:
+            special = parse_special(raw.get("special_days"))
+        except DataError as e:
+            errors.append(f"{cid}: {e}")
+            continue
+        c = Clinic(raw, hours, today, special)
         if ("祝日可" in raw["tags"]) != c.open_holiday:
             errors.append(f"{cid}: tags の「祝日可」と hours の PH が一致しない")
         if c.group not in {g for g, _ in GROUPS}:
