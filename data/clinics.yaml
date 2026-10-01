@@ -326,7 +326,7 @@ clinics:
 
   - id: suzuki-hospital
     name: 鈴木病院
-    科: [外科, 整形外科]
+    科: [外科, 整形外科, 内科, 小児科]
     tel: "03-5617-5617"
     address: 東京都江東区塩浜2-7-3
     lat: 35.6617580
@@ -334,12 +334,14 @@ clinics:
     geo_source: gsi
     walk_m: 3468
     walk_m_source: osrm
-    hours: "Mo,Tu 10:00-12:30,14:00-17:00; We 09:00-11:00; Th,Fr 10:00-12:30; Sa 13:00-13:30"
-    note: 時間は旧表のまま（不規則なので要確認）
-    url:
+    # hours は整形外科の外来（公式サイト 2026-10-01 確認）。水・土は手術日のため「要問合せ」→ 不明扱い。
+    hours: "Mo 10:00-12:00,14:00-17:00; Tu,Th 09:00-12:00,14:00-17:00; Fr 09:00-12:00,14:00-16:00; Su,PH off"
+    holiday_note: 日祝は外来休診
+    note: 東京都指定二次救急（救急搬送は24時間受け入れ）。外科・胃腸科は月水木金 9-12、水木金 14-17。内科・小児科は月火金土 9-12、月火水金 14-17、土 15-17。水・土の整形外科は手術日のため要問合せ
+    url: https://seirankai-suzuki.jp/hospital/index.html
     tags: [外科, 整形外科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: ganken-ariake
     name: がん研有明病院
@@ -440,12 +442,13 @@ clinics:
     geo_source: gsi
     walk_m: 582
     walk_m_source: osrm
-    hours: "Mo-Fr 09:30-12:30,14:30-17:30; Sa,Su 09:00-12:00,13:30-15:30; PH off"
-    holiday_note: 祝日は休診（土日は診療）
-    url:
+    hours: "Mo-Fr 09:30-13:00,14:30-18:00; Sa,Su 09:00-12:30,13:30-16:00; PH off"
+    holiday_note: 祝日・振替休日は休診（土日は診療）
+    note: 最終受付は各枠の30分前。臨時休診・代診は公式サイトのお知らせで
+    url: https://www.harumi-ent.com/
     tags: [耳鼻咽喉科]
-    verified: 2024-05-12
-    source: 旧xlsx
+    verified: 2026-10-01
+    source: 公式サイト
 
   - id: kachidoki-jibika-naika
     name: 勝どき耳鼻咽喉科・内科クリニック
