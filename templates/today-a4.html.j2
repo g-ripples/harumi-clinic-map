@@ -31,12 +31,26 @@
   .hours { white-space: nowrap; font-weight: 700; }
   .tel { font-size: 14pt; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .dist { white-space: nowrap; font-size: 8pt; }
-  .num { text-align: right; width: 6mm; }
   th { white-space: nowrap; }
-  .unknown { list-style: none; columns: 2; column-gap: 6mm; font-size: 7.5pt; }
-  .unknown li { break-inside: avoid; border-bottom: 0.2mm dotted #000; padding: 0.6mm 0; display: flex; justify-content: space-between; gap: 2mm; }
-  .unknown .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .unknown b { font-size: 9pt; white-space: nowrap; margin-left: auto; }
+  /* 区分ごとの色（淡い色・同系色の濃淡で縞々）。色がなくても見出しで区別できる */
+  .sec { margin-top: 3mm; break-inside: auto; }
+  table.fixed { table-layout: fixed; }
+  table.fixed .hours { white-space: normal; }
+  .sec h2 { margin: 0; padding: 1mm 2mm; background: var(--hd); border: 0.25mm solid #000; border-bottom: none; }
+  .sec h2 .count { font-size: 8pt; font-weight: 400; margin-left: 2mm; }
+  .sec h2 { break-after: avoid; }
+  .sec th { background: var(--hd); }
+  .sec tbody tr:nth-child(odd)  { background: var(--lt); }
+  .sec tbody tr:nth-child(even) { background: var(--dk); }
+  .sec .none, .sec .unk { border: 0.25mm solid #000; border-top: none; padding: 1mm 2mm; font-size: 7.5pt; background: var(--lt); }
+  .sec table + .unk, .sec .none + .unk { border-top: none; }
+  .sec .unk span { display: inline-block; margin-right: 4mm; white-space: nowrap; }
+  .sec .unk a { font-weight: 700; }
+  .sec-0 { --hd: #f2d3b8; --dk: #fbe6d6; --lt: #fff5ed; }  /* 小児科: 杏 */
+  .sec-1 { --hd: #c6d8ec; --dk: #e0ebf6; --lt: #f3f8fc; }  /* 大人用: 青 */
+  .sec-2 { --hd: #c5dfc3; --dk: #e1efdf; --lt: #f4faf3; }  /* 外科・整形外科: 緑 */
+  .sec-3 { --hd: #d9cdea; --dk: #ebe4f4; --lt: #f8f5fb; }  /* 皮膚科: 藤 */
+  .sec-4 { --hd: #e6dcae; --dk: #f2ecd0; --lt: #fbf9ee; }  /* 耳鼻咽喉科: 砂 */
   footer { margin-top: 3mm; border-top: 0.3mm solid #000; padding-top: 1mm; font-size: 7.5pt; }
   .phones { display: flex; gap: 6mm; margin-top: 1mm; }
   .phones b { font-size: 14pt; }
@@ -49,8 +63,7 @@
     table, tbody, tr, td { display: block; width: 100%; }
     tr { border: 0.3mm solid #000; margin-bottom: 2mm; }
     td { border: none; padding: 0.5mm 2mm; }
-    .num { display: none; }
-    .unknown { columns: 1; }
+    .sec tbody tr { border: 0.3mm solid #000; border-top: none; margin-bottom: 0; }
   }
 </style>
 </head>
@@ -71,36 +84,35 @@
 {% endif %}
 <p class="meta"><b>時間は受付できる時間（最終受付まで）。</b>距離は{{ origin.name }}（{{ origin.address | replace("東京都中央区", "") }}）からの徒歩の目安。「要確認」は1年以上情報を確認していない医院。受診前に必ず電話で確認すること。</p>
 
-<h2>開いている医院（{{ open | length }}件・近い順）</h2>
-{% if open %}
-<table>
-  <thead><tr><th class="num">#</th><th>医院</th><th>本日の時間</th><th>電話</th><th>距離</th></tr></thead>
-  <tbody>
-  {% for c, hours in open %}
-  <tr>
-    <td class="num">{{ loop.index }}</td>
-    <td><div class="name">{{ c.name }}{% if c.stale %} <span class="sub">（要確認 {{ c.verified }}）</span>{% endif %}</div>
-        <div class="sub">{{ c.depts | join("・") }}{% if c.address %} ／ {{ c.address | replace("東京都", "") }}{% endif %}</div>
-        {% if c.holiday_note or c.note %}<div class="sub">{{ [c.holiday_note, c.note] | select | join(" ／ ") }}</div>{% endif %}</td>
-    <td class="hours">{{ hours | safe }}</td>
-    <td class="tel">{% if c.tel %}<a href="{{ c.tel_href }}">{{ c.tel }}</a>{% else %}—{% endif %}</td>
-    <td class="dist">{% if c.walk_m %}徒歩{{ c.walk_min }}分<br>{{ "{:,}".format(c.walk_m) }}m{{ "*" if c.walk_m_source == "estimated" }}{% else %}—{% endif %}</td>
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<p class="alert">登録されている医院で今日開いているところはありません。#8000 / #7119 に相談してください。</p>
-{% endif %}
-
-{% if unknown %}
-<h2>今日の診療が不明（{{ unknown | length }}件・電話で確認）</h2>
-<ul class="unknown">
-  {% for c in unknown %}
-  <li><span class="n">{{ c.name }}</span> <b>{% if c.tel %}<a href="{{ c.tel_href }}">{{ c.tel }}</a>{% else %}—{% endif %}</b>{% if c.walk_m %} <span class="sub">徒歩{{ c.walk_min }}分</span>{% endif %}</li>
-  {% endfor %}
-</ul>
-{% endif %}
+{% for sec in sections %}
+<section class="sec sec-{{ loop.index0 }}">
+  <h2>■{{ sec.name }} <span class="count">開いている {{ sec.open | length }}件{% if sec.unknown %}・不明 {{ sec.unknown | length }}件{% endif %}</span></h2>
+  {% if sec.open %}
+  <table class="fixed">
+    <colgroup><col style="width:53%"><col style="width:16%"><col style="width:21%"><col style="width:10%"></colgroup>
+    <thead><tr><th>医院</th><th>本日の受付</th><th>電話</th><th>距離</th></tr></thead>
+    <tbody>
+    {% for c, hours in sec.open %}
+    <tr>
+      <td><div class="name">{{ c.name }}{% if c.stale %} <span class="sub">（要確認 {{ c.verified }}）</span>{% endif %}</div>
+          <div class="sub">{{ c.depts | join("・") }}{% if c.address %} ／ {{ c.address | replace("東京都", "") }}{% endif %}</div>
+          {% if c.holiday_note or c.note %}<div class="sub">{{ [c.holiday_note, c.note] | select | join(" ／ ") }}</div>{% endif %}</td>
+      <td class="hours">{{ hours | safe }}</td>
+      <td class="tel">{% if c.tel %}<a href="{{ c.tel_href }}">{{ c.tel }}</a>{% else %}—{% endif %}</td>
+      <td class="dist">{% if c.walk_m %}徒歩{{ c.walk_min }}分<br>{{ "{:,}".format(c.walk_m) }}m{{ "*" if c.walk_m_source == "estimated" }}{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="none">今日開いている医院はありません。</p>
+  {% endif %}
+  {% if sec.unknown %}
+  <p class="unk"><b>今日の診療が不明（電話で確認）:</b>
+    {% for c in sec.unknown %}<span>{{ c.name }} {% if c.tel %}<a href="{{ c.tel_href }}">{{ c.tel }}</a>{% else %}—{% endif %}</span>{% endfor %}</p>
+  {% endif %}
+</section>
+{% endfor %}
 
 <footer>
   <div class="phones"><span><b>#8000</b> 子ども医療電話相談</span><span><b>#7119</b> 救急相談センター</span><span><b>119</b> 救急車</span></div>

@@ -23,14 +23,9 @@ ALL_DAYS = DAYS + ["PH"]
 DAY_JA = {"Mo": "月", "Tu": "火", "We": "水", "Th": "木", "Fr": "金",
           "Sa": "土", "Su": "日", "PH": "祝"}
 
-# README の全件リストの科グループ（clinic の 科 の先頭要素で振り分け）
-GROUPS = [
-    ("小児科", "小児科"),
-    ("内科", "内科（大人）"),
-    ("外科", "外科・整形外科"),
-    ("皮膚科", "皮膚科"),
-    ("耳鼻咽喉科", "耳鼻咽喉科"),
-]
+# 分類は旧 Excel の区分に合わせる（実際に使うときの感覚。公式サイトの診療科一覧ではない）
+SECTIONS = ["小児科", "大人用", "外科・整形外科の救急", "皮膚科", "耳鼻咽喉科"]
+GROUPS = [(s, s) for s in SECTIONS]
 
 
 class DataError(Exception):
@@ -247,7 +242,7 @@ class Clinic:
 
     @property
     def group(self) -> str:
-        return self.depts[0]
+        return self.raw["section"]
 
     @property
     def verified(self) -> dt.date:
@@ -317,7 +312,7 @@ def tel_href(tel: str) -> str:
     return "tel:" + re.sub(r"\D", "", tel)
 
 
-REQUIRED = ["id", "name", "科", "hours", "tags", "verified", "source"]
+REQUIRED = ["id", "name", "section", "科", "hours", "tags", "verified", "source"]
 _TEL = re.compile(r"^(0\d{1,4}-\d{1,4}-\d{3,4}|0120-\d{2,3}-\d{3})$")
 
 
@@ -359,8 +354,8 @@ def load(today: dt.date | None = None, path: Path = DATA) -> dict:
         c = Clinic(raw, hours, today, special)
         if ("祝日可" in raw["tags"]) != c.open_holiday:
             errors.append(f"{cid}: tags の「祝日可」と hours の PH が一致しない")
-        if c.group not in {g for g, _ in GROUPS}:
-            errors.append(f"{cid}: 科の先頭 {c.group!r} が README のグループにない")
+        if c.group not in SECTIONS:
+            errors.append(f"{cid}: section {c.group!r} は {' / '.join(SECTIONS)} のどれか")
         clinics.append(c)
 
     if errors:

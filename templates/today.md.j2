@@ -12,10 +12,22 @@
 ⚠️ 年末年始は必ず電話で確認。
 
 {% endif %}
-| 医院 | 本日の時間 | 電話 | 距離 |
+{% for sec in sections %}
+### ■{{ sec.name }}（{{ sec.open | length }}件）
+
+{% if sec.open %}
+| 医院 | 本日の受付 | 電話 | 距離 |
 |---|---|---|---|
-{% for c, hours in open %}
+{% for c, hours in sec.open %}
 | {{ c.name }}{{ " ⚠️要確認" if c.stale }} | {{ hours }} | {{ c.tel or "—" }} | {{ c.distance }} |
 {% endfor %}
+{% else %}
+今日開いている医院なし。
+{% endif %}
+{% if sec.unknown %}
 
-今日の診療が不明: {{ unknown | length }}件。印刷用 HTML / PDF はこの実行の Artifacts からダウンロード。
+不明: {{ sec.unknown | map(attribute="name") | join("、") }}
+{% endif %}
+
+{% endfor %}
+印刷用 HTML / PDF はこの実行の Artifacts からダウンロード。

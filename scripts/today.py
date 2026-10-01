@@ -21,7 +21,7 @@ from zoneinfo import ZoneInfo
 import jpholiday
 
 from build import env
-from common import DAY_JA, DAYS, ROOT, DataError, fmt_day, load
+from common import DAY_JA, DAYS, ROOT, SECTIONS, DataError, fmt_day, load
 
 DIST = ROOT / "dist"
 
@@ -91,9 +91,12 @@ def main() -> int:
                 open_.append((c, fmt_day(h, "<br>")))
     open_.sort(key=lambda t: t[0].sort_key)
     unknown.sort(key=lambda c: c.sort_key)
+    sections = [{"name": name,
+                 "open": [t for t in open_ if t[0].group == name],
+                 "unknown": [c for c in unknown if c.group == name]} for name in SECTIONS]
 
     ctx = dict(day=day, open=open_, unknown=unknown, renkyu_closed=renkyu_closed,
-               special_closed=special_closed,
+               special_closed=special_closed, sections=sections,
                origin=data["origin"], total=len(data["clinics"]))
     DIST.mkdir(exist_ok=True)
     out = DIST / f"today-{target}.html"
