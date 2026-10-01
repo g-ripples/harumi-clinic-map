@@ -20,13 +20,14 @@
 #   臨時に開く日も書ける: {dates: "12/29-1/3", hours: "09:00-22:00"}。hours は必ず引用符で囲む。
 #   年末年始とだけ書かれていて日付の説明がなければ 12/29〜1/3 とみなす。
 # holiday_note: 「連休は休診」のような落とし穴を書く専用欄。
-# verified:     公式サイト等で最後に確認した日（エントリごと）。365日超で「要確認」。
+# verified:     公式サイト等で最後に確認した日（エントリごと）。365日超、または空欄（未確認）で「要確認」。
+#               薬局の hours は処方せん受付の時間（店舗の営業時間ではない）。
 # lat / lon:    空なら build 時に住所から補完して書き戻す（国土地理院の住所検索 → Nominatim）。
 #               手入力も可（geo_source を書かなければ --refresh-geo でも上書きされない）。
 # walk_m / walk_m_source: build が自動で書き戻す。手で書かない。
 #   再計算は `python scripts/build.py --refresh-distance`（住所を直したら --refresh-geo）
 #
-# section:      旧 Excel の区分（小児科 / 大人用 / 外科・整形外科の救急 / 皮膚科 / 耳鼻咽喉科）。
+# section:      旧 Excel の区分（小児科 / 大人用 / 外科・整形外科の救急 / 皮膚科 / 耳鼻咽喉科）＋ 薬局。
 #               公式サイトの診療科ではなく「実際に使う科」で決める。同じ医院が2区分に出るなら2エントリにする。
 # 個人情報（自宅住所・氏名・保険証番号など）はこのリポジトリに一切書かないこと。
 
@@ -595,3 +596,88 @@ clinics:
     tags: [耳鼻咽喉科]
     verified: 2024-05-12
     source: 旧xlsx
+
+  # ───────────── 薬局 ─────────────
+  # hours は処方せん受付の時間。電話・住所は京橋薬剤師会「医薬品提供体制リスト化（在宅）」
+  # （2025-10）による。同リストの時間は在宅訪問の対応時間なので使っていない。
+  - id: aisei-kachidoki
+    name: アイセイ薬局 勝どき店
+    section: 薬局
+    科: [薬局]
+    tel: "03-3533-0225"
+    address: 東京都中央区勝どき3-5-5 AIP勝どき駅前ビル3F
+    lat: 35.6585390
+    lon: 139.7762150
+    geo_source: gsi
+    walk_m: 708
+    walk_m_source: osrm
+    nearest: 勝どき駅
+    # 時間は公式サイトの店舗ページ（向こう14日の営業カレンダー、10/12 の祝日を含む）。
+    hours: "Mo-Fr 09:00-20:00; Sa 09:00-17:00; Su,PH 09:00-13:00,14:00-17:00"
+    last_entry: 公式サイトに記載なし（営業時間のみ）
+    note: 有明こどもクリニック 勝どき院と同じビル
+    url: "https://www.aisei.co.jp/store/s-tokyo/s-tokyo-chuo/0495/"
+    tags: [薬局, 祝日可]
+    verified: 2026-10-01
+    source: 公式サイト
+
+  - id: tomods-harumi-triton
+    name: 薬局トモズ 晴海トリトン店
+    section: 薬局
+    科: [薬局]
+    tel: "03-5144-8215"
+    address: 東京都中央区晴海1-8-16 晴海トリトンスクエア2F
+    lat: 35.6555560
+    lon: 139.7818300
+    geo_source: gsi
+    walk_m: 529
+    walk_m_source: osrm
+    # 晴海トリトンスクエア公式サイトの店舗ページ。曜日の区別はなく毎日同じ時間と読んでいる。
+    hours: "Mo-Su,PH 08:30-19:00"
+    last_entry: 処方せん受付は19:00まで（店舗は21:00まで）
+    note: 電話は調剤の番号
+    url: "https://harumi-triton.jp/shop/tomods/"
+    tags: [薬局, 祝日可]
+    verified: 2026-10-01
+    source: 晴海トリトンスクエア公式サイト
+
+  - id: papas-harumi
+    name: ぱぱす薬局 晴海店
+    section: 薬局
+    科: [薬局]
+    tel: "03-3531-9388"
+    address: 東京都中央区晴海3-12-1
+    lat: 35.6548920
+    lon: 139.7788090
+    geo_source: gsi
+    walk_m: 161
+    walk_m_source: osrm
+    # 公式（マツモトキヨシの店舗ページ）は自動取得を拒否されたため未確認。時間は「くすりの窓口」の掲載。
+    hours: "Mo-Fr 09:00-19:30; Sa,Su,PH 09:00-17:00"
+    note: 時間は公式未確認（くすりの窓口の調剤受付時間）。電話は調剤の番号
+    url: "https://www.matsukiyo.co.jp/map?kid=20306420"
+    tags: [薬局, 祝日可]
+    verified:
+    source: くすりの窓口（公式未確認）
+
+  - id: nicho-harumi
+    name: 日本調剤 晴海薬局
+    section: 薬局
+    科: [薬局]
+    tel: "03-5534-8197"
+    address: 東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 3F 3140号室
+    lat: 35.6508030
+    lon: 139.7747040
+    geo_source: gsi
+    walk_m: 582
+    walk_m_source: osrm
+    hours: "Mo-Su,PH 09:00-19:00"
+    last_entry: 公式サイトに記載なし（営業時間のみ）
+    special_days:
+      - {dates: "12/29-1/3", hours: "off"}
+    holiday_note: 祝日も営業。年末年始（12/29〜1/3）は休み
+    note: 晴海小児科醫院・晴海耳鼻咽喉科と同じ ららテラス HARUMI FLAG 3F
+    url: "https://www.nicho.co.jp/tenpo/harumi/"
+    tags: [薬局, 祝日可]
+    verified: 2026-10-01
+    source: 公式サイト

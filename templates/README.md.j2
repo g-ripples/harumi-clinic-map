@@ -16,7 +16,7 @@
 | 医院 | 距離 | 日 | 祝 | 確認日 |
 |---|---|---|---|---|
 {% for c in summary %}
-| [{{ c.name }}](#{{ c.id }}) | {{ c.distance | replace(" / ", "<br>") }} | {{ fmt_day(c.hours.get("Su"), "<br>") }} | {{ holiday_text(c, "<br>") }} | {{ c.verified }}{{ " ⚠️" if c.stale }} |
+| [{{ c.name }}](#{{ c.id }}) | {{ c.distance | replace(" / ", "<br>") }} | {{ fmt_day(c.hours.get("Su"), "<br>") }} | {{ holiday_text(c, "<br>") }} | {{ c.verified_text }}{{ " ⚠️" if c.stale }} |
 {% endfor %}
 
 ⚠️ 祝日列: 連休中は休診になる医院。 ⚠️ 確認日: {{ stale_days }}日以上確認していない（要確認）。
@@ -70,7 +70,7 @@
 {% if c.note %}
 - 備考: {{ c.note }}
 {% endif %}
-- 科: {{ c.depts | join("・") }} ・ 確認 {{ c.verified }}（{{ c.source }}）{% if c.url %} ・ [公式サイト]({{ c.url }}){% endif %}
+- 科: {{ c.depts | join("・") }} ・ 確認 {{ c.verified_text }}（{{ c.source }}）{% if c.url %} ・ [公式サイト]({{ c.url }}){% endif %}
 
 
 {% endfor %}

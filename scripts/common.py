@@ -24,7 +24,7 @@ DAY_JA = {"Mo": "月", "Tu": "火", "We": "水", "Th": "木", "Fr": "金",
           "Sa": "土", "Su": "日", "PH": "祝"}
 
 # 分類は旧 Excel の区分に合わせる（実際に使うときの感覚。公式サイトの診療科一覧ではない）
-SECTIONS = ["小児科", "大人用", "外科・整形外科の救急", "皮膚科", "耳鼻咽喉科"]
+SECTIONS = ["小児科", "大人用", "外科・整形外科の救急", "皮膚科", "耳鼻咽喉科", "薬局"]
 GROUPS = [(s, s) for s in SECTIONS]
 
 
@@ -245,16 +245,21 @@ class Clinic:
         return self.raw["section"]
 
     @property
-    def verified(self) -> dt.date:
+    def verified(self) -> dt.date | None:
+        """None = 公式情報で未確認（要確認として扱う）。"""
         return self.raw["verified"]
 
     @property
+    def verified_text(self) -> str:
+        return str(self.verified) if self.verified else "未確認"
+
+    @property
     def age_days(self) -> int:
-        return (self.today - self.verified).days
+        return (self.today - self.verified).days if self.verified else None
 
     @property
     def stale(self) -> bool:
-        return self.age_days > STALE_DAYS
+        return self.verified is None or self.age_days > STALE_DAYS
 
     @property
     def open_holiday(self) -> bool:
@@ -312,7 +317,7 @@ def tel_href(tel: str) -> str:
     return "tel:" + re.sub(r"\D", "", tel)
 
 
-REQUIRED = ["id", "name", "section", "科", "hours", "tags", "verified", "source"]
+REQUIRED = ["id", "name", "section", "科", "hours", "tags", "source"]
 _TEL = re.compile(r"^(0\d{1,4}-\d{1,4}-\d{3,4}|0120-\d{2,3}-\d{3})$")
 
 
@@ -335,8 +340,11 @@ def load(today: dt.date | None = None, path: Path = DATA) -> dict:
         if cid in seen:
             errors.append(f"{cid}: id が重複")
         seen.add(cid)
-        if not isinstance(raw["verified"], dt.date):
-            errors.append(f"{cid}: verified は YYYY-MM-DD で書く")
+        if "verified" not in raw:
+            errors.append(f"{cid}: verified がない（未確認なら空欄で書く）")
+            continue
+        if raw["verified"] is not None and not isinstance(raw["verified"], dt.date):
+            errors.append(f"{cid}: verified は YYYY-MM-DD で書く（未確認なら空欄）")
             continue
         for t in [raw.get("tel")] + [a.get("tel") for a in raw.get("tel_alt") or []]:
             if t is not None and not _TEL.match(str(t)):

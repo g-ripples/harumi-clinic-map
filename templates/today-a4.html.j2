@@ -51,6 +51,7 @@
   .sec-2 { --hd: #c5dfc3; --dk: #e1efdf; --lt: #f4faf3; }  /* 外科・整形外科: 緑 */
   .sec-3 { --hd: #d9cdea; --dk: #ebe4f4; --lt: #f8f5fb; }  /* 皮膚科: 藤 */
   .sec-4 { --hd: #e6dcae; --dk: #f2ecd0; --lt: #fbf9ee; }  /* 耳鼻咽喉科: 砂 */
+  .sec-5 { --hd: #bfdcd8; --dk: #ddeeeb; --lt: #f2f9f8; }  /* 薬局: 青磁 */
   footer { margin-top: 3mm; border-top: 0.3mm solid #000; padding-top: 1mm; font-size: 7.5pt; }
   .phones { display: flex; gap: 6mm; margin-top: 1mm; }
   .phones b { font-size: 14pt; }
@@ -94,7 +95,7 @@
     <tbody>
     {% for c, hours in sec.open %}
     <tr>
-      <td><div class="name">{{ c.name }}{% if c.stale %} <span class="sub">（要確認 {{ c.verified }}）</span>{% endif %}</div>
+      <td><div class="name">{{ c.name }}{% if c.stale %} <span class="sub">（要確認 {{ c.verified_text }}）</span>{% endif %}</div>
           <div class="sub">{{ c.depts | join("・") }}{% if c.address %} ／ {{ c.address | replace("東京都", "") }}{% endif %}</div>
           {% if c.holiday_note or c.note %}<div class="sub">{{ [c.holiday_note, c.note] | select | join(" ／ ") }}</div>{% endif %}</td>
       <td class="hours">{{ hours | safe }}</td>
